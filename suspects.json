@@ -1,0 +1,662 @@
+[
+    {
+        "NAME": "os_info",
+        "API": "ifx_smi",
+        "CMD": "select os_num_procs::int8 os_num_procs,os_num_olprocs::int8 os_num_olprocs,os_pagesize::int8 os_pagesize, os_mem_total::int8 os_mem_total, os_mem_free::int8 os_mem_free from sysmachineinfo",
+        "METRICS": [
+            "os_num_procs",
+            "os_num_olprocs",
+            "os_pagesize",
+            "os_mem_total",
+            "os_mem_free"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "kernel_info",
+        "API": "ifx_smi",
+        "CMD": "Select os_open_file_lim::int8 os_open_file_lim,os_shmmax::int8 os_shmmax,os_shmmin::int8 os_shmmin,os_shmids::int8 os_shmids,os_shmnumsegs::int8 os_shmnumsegs,os_semids::int8 os_semids,os_semnum::int8 os_semnum,os_semnumperid::int8 os_semnumperid,os_semops::int8 os_semops from sysmachineinfo",
+        "METRICS": [
+            "os_open_file_lim",
+            "os_shmmax",
+            "os_shmmin",
+            "os_shmids",
+            "os_shmnumsegs",
+            "os_semids",
+            "os_semnum",
+            "os_semnumperid",
+            "os_semops"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "uptime",
+        "API": "ifx_smi",
+        "CMD": "select substr((dbinfo('utc_current')-value)/3600,1,10) uptime from sysshmhdr where name='bttime'",
+        "METRICS": [
+            "uptime"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "online_mode",
+        "API": "ifx_smi",
+        "CMD": "select value mode from sysshmhdr where name='mode'",
+        "METRICS": [
+            "mode"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "blocked",
+        "API": "ifx_smi",
+        "CMD": "select sysadmin:task('onstat',' -|grep Blocked|wc -l') blocked from sysmaster:sysdual",
+        "METRICS": [
+            "blocked"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "instance_profile",
+        "API": "ifx_smi",
+        "CMD": "SELECT TRIM(name) AS name,value fROM sysprofile WHERE name IN ('dskreads', 'bufreads', 'dskwrites', 'bufwrites', 'isamtot',  'isreads', 'iswrites', 'isrewrites', 'isdeletes', 'iscommits', 'isrollbacks', 'latchwts', 'buffwts', 'lockreqs', 'lockwts', 'ckptwts', 'deadlks', 'lktouts', 'numckpts', 'plgpagewrites', 'plgwrites', 'llgpagewrites', 'llgwrites', 'pagreads', 'pagwrites', 'flushes', 'compress', 'btraidx', 'dpra', 'rapgs_used', 'seqscans', 'totalsorts', 'memsorts', 'disksorts', 'maxsortspace')",
+        "METRICS": [
+            "name",
+            "value"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "vp_profile",
+        "API": "ifx_smi",
+        "CMD": "Select trim(classname) classname,sum(total_spins) total_spins, sum(vp_cache_miss) vp_cache_miss, sum(total_semops) total_semops, decode(sum(thread_run),0,0,sum(usecs_user + usecs_sys)/sum(thread_run))*100 busy_rate,sum(num_ready) num_ready from sysvplst group by classname",
+        "METRICS": [
+            "total_spins",
+            "vp_cache_miss",
+            "total_semops",
+            "busy_rate",
+            "num_ready"
+        ],
+        "TYPE": "gauge",
+        "LABEL": "classname"
+    },
+    {
+        "NAME": "buff_profile",
+        "API": "ifx_smi",
+        "CMD": "select (bufsize/1024)::int||'k' as bufsize,nbuffs,bufreads,bufwrites,bufwaits,ovbuff from sysbufpool",
+        "METRICS": [
+            "nbuffs",
+            "bufreads",
+            "bufwrites",
+            "bufwaits",
+            "ovbuff"
+        ],
+        "TYPE": "gauge",
+        "LABEL": "bufsize"
+    },
+    {
+        "NAME": "lock_profile",
+        "API": "ifx_smi",
+        "CMD": "select wt_locks,act_locks,max_locks from (select count(*) wt_locks from syslcktab where wtlist>0) a,(select count(*) act_locks from syslocktab) b,(select sh_maxlocks max_locks from sysshmvals ) c",
+        "METRICS": [
+            "wt_locks",
+            "act_locks",
+            "max_locks"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "vm_usage",
+        "API": "ifx_smi",
+        "CMD": "select first 20 'pool_'||trim(po_name::varchar(20)) name,sum(po_usedamt + po_freeamt)/1024 value from syspoollst where po_class=2 group by 1 union all select 'vm_tot' name,sum(seg_size)/1024 from sysseglst where seg_class=2 union all select 'vm_used' name,sum(seg_blkused*os_pagesize)/1024 from sysseglst,sysmachineinfo where seg_class=2 order by 2 desc",
+        "METRICS": [
+            "name",
+            "value"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "dbs_usage",
+        "API": "ifx_smi",
+        "CMD": "select trim(name) dbspace, sum(a.pagesize*(chksize-nfree))/sum(a.pagesize*a.chksize)*100 usage,sum(a.pagesize*nfree)/1024 free_size from syschunks a,sysdbspaces b where a.dbsnum=b.dbsnum group by 1",
+        "METRICS": [
+            "usage",
+            "free_size"
+        ],
+        "TYPE": "gauge",
+        "LABEL": "dbspace"
+    },
+    {
+        "NAME": "dbs_io",
+        "API": "ifx_smi",
+        "CMD": "select trim(c.name)||'_'||trim(substr(replace(fname,'.',''),instr(replace(fname,'.',''),'/',-1)+1,length(replace(fname,'.','')))) chkname, reads, pagesread, writes,pageswritten from syschkio a,syschunks b,sysdbspaces c where a.chunknum=b.chknum and b.dbsnum=c.dbsnum",
+        "METRICS": [
+            "reads",
+            "pagesread",
+            "writes",
+            "pageswritten"
+        ],
+        "TYPE": "gauge",
+        "LABEL": "chkname"
+    },
+    {
+        "NAME": "chk_down",
+        "API": "ifx_smi",
+        "CMD": "select trim(replace(fname,'.','')) error_chk from syschunks where is_offline=1 or is_recovering=1 or is_inconsistent=1",
+        "METRICS": [
+            "error_chk"
+        ],
+        "TYPE": "info",
+        "LABEL": ""
+    },
+    {
+        "NAME": "top_net_io",
+        "API": "ifx_smi",
+        "CMD": "select first 5 rownumber() over (order by (net_read_bytes + net_write_bytes) desc)||'_'||sid topN, net_read_cnt,net_read_bytes,net_write_cnt,net_write_bytes from sysnetworkio where net_protocol='soctcp' and net_client_type=0",
+        "METRICS": [
+            "net_read_cnt",
+            "net_read_bytes",
+            "net_write_cnt",
+            "net_write_bytes"
+        ],
+        "TYPE": "gauge",
+        "LABEL": "topn"
+    },
+    {
+        "NAME": "top_ses",
+        "API": "ifx_smi",
+        "CMD": "select sc.sid sid,sum(rs.upf_dsksorts) dsksorts, sum(rs.upf_bufreads) bufreads, sum(rs.upf_bufwrites) bufwrites, sum(rs.nreads) pagreads, sum(rs.nwrites) pagwrites, sum(rs.upf_iswrite) iswrites, sum(rs.upf_isrwrite) isrewrites, sum(rs.upf_isdelete) isdeletes, sum(rs.upf_isrollback) isrollbacks, sum(rs.upf_wtlock) lockwts, sum(rs.lkwaittime) lockwaittime, sum(rs.iowaittime) iowaittime, sum(tc.cpu_time) cpu_time from sysmaster:sysscblst sc, sysmaster:sysrstcb rs, sysmaster:systcblst tc, sysmaster:syssessions s where sc.address=rs.scb and rs.tid=tc.tid and sc.username != 'dbmon' and s.sid=sc.sid group by sid order by bufreads desc,bufwrites desc,lockwaittime desc,iowaittime desc,cpu_time desc",
+        "METRICS": [
+            "dsksorts",
+            "bufreads",
+            "bufwrites",
+            "pagreads",
+            "pagwrites",
+            "iswrites",
+            "isrewrites",
+            "isdeletes",
+            "isrollbacks",
+            "lockwts",
+            "lockwaittime",
+            "iowaittime",
+            "cpu_time"
+        ],
+        "TYPE": "gauge",
+        "LABEL": "sid"
+    },
+    {
+        "NAME": "netstat",
+        "API": "ifx_smi",
+        "CMD": "select ng_num_netscbs,ng_max_netscbs,ng_wait_cnt,ng_buf_alloc,ng_buf_alloc_max from sysnetglobal",
+        "METRICS": [
+            "ng_num_netscbs",
+            "ng_max_netscbs",
+            "ng_wait_cnt",
+            "ng_buf_alloc",
+            "ng_buf_alloc_max"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "ckpt_stat",
+        "API": "ifx_smi",
+        "CMD": "select first 1 cp_time from syscheckpoint order by clock_time desc",
+        "METRICS": [
+            "cp_time"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "topTX",
+        "API": "ifx_top",
+        "CMD": "select first 10 (rownumber() over (order by us_isread+us_iswrite+us_isrwrite+us_isdelete desc))::int rank,current::varchar(32) curtime,tx_id::int tx_id, c.sid, trim(username) username, pid, trim(tty) tty, trim(feprogram) feprogram, trim(scs_sqlstatement) sqs_statement, scs_sqerrno, scs_isamerr, tx_logbeg, tx_loguniq tx_logcur, g.lognum max_log_num, max_sortdiskspace max_sortdiskspace, us_nlocks::int8 us_nlocks, us_isread::int8 us_isread, us_iswrite::int8 us_iswrite, us_isrwrite::int8 us_isrwrite, us_isdelete::int8 us_isdelete,(us_isread+us_iswrite+us_isrwrite+us_isdelete) us_ops from sysmaster:systrans a, sysmaster:sysuserthreads b, sysmaster:syssessions c, sysmaster:syssqlcurses d, sysmaster:sysconfig e, sysmaster:syssesprof f, (select count(*) lognum from sysmaster:syslogs) g where a.tx_addr = b.us_txp and b.us_uid = c.uid and b.us_sid = c.sid and c.sid = d.scs_sessionid and c.sid = f.sid and e.cf_name = 'LTXHWM' and username<>'dbmon' and username='openbet'",
+        "METRICS": [
+            "tx_id",
+            "sid",
+            "username",
+            "pid",
+            "tty",
+            "feprogram",
+            "sqs_statement",
+            "sqs_sqlerror",
+            "sqs_isamerror",
+            "tx_logbeg",
+            "tx_logcur",
+            "max_log_num",
+            "max_sortdiskspace",
+            "us_nlocks",
+            "us_isread",
+            "us_iswrite",
+            "us_isrwrite",
+            "us_isdelete",
+            "us_ops"
+        ],
+        "TYPE": "info",
+        "LABEL": "rank"
+    },
+    {
+        "NAME": "topAusMisson",
+        "API": "ifx_top",
+        "CMD": "select aus_cmd_id,aus_cmd_state,aus_cmd_err_sql::int aus_cmd_err_sql,aus_cmd_err_isam::int aus_cmd_err_isam,aus_cmd_time::varchar(20) aus_cmd_time,aus_cmd_runtime::varchar(20) aus_cmd_runtime,aus_cmd_exe from sysadmin:aus_command a ,sysmaster:systabnames b where a.aus_cmd_partnum=b.partnum and b.dbsname='openbet' and current between substr(current,1,10)||' 6:00:00' and substr(current,1,10)||' 6:10:00'",
+        "METRICS": [
+            "aus_cmd_state",
+            "aus_cmd_err_sql",
+            "aus_cmd_err_isam",
+            "aus_cmd_time",
+            "aus_cmd_runtime",
+            "aus_cmd_exe"
+        ],
+        "TYPE": "info",
+        "LABEL": "aus_cmd_id"
+    },
+    {
+        "NAME": "topPageTable",
+        "API": "ifx_top",
+        "CMD": "select first 10 (rownumber() over (order by nptotal desc))::int rank,trim(dbinfo('DBSPACE',a.partnum)) dbspace,trim(dbsname) database,trim(tabname) table, a.partnum partnum, nextns, nptotal, pagesize, fextsiz, nextsiz from sysmaster:sysptnhdr a, sysmaster:systabnames b where a.partnum = b.partnum and b.dbsname not like 'sys%' and dbsname in( select name from sysmaster:sysdatabases) and b.tabname not like 'sys%' and tabname not like 'TBLSpace%' and sysmaster:bitval(flags,'32')<>1 and sysmaster:bitval(flags,'64')<>1 and sysmaster:bitval(flags,'128')<>1",
+        "METRICS": [
+            "dbspace",
+            "database",
+            "tabname",
+            "partnum",
+            "nextns",
+            "nptotal",
+            "pagesize",
+            "fextsiz",
+            "nextsiz"
+        ],
+        "TYPE": "info",
+        "LABEL": "rank"
+    },
+    {
+        "NAME": "topTemp",
+        "API": "ifx_top",
+        "CMD": "select first 10 (rownumber() over (order by nptotal desc))::int rank,trim(dbinfo('DBSPACE',a.partnum)) dbspace,trim(dbsname) database,trim(tabname) table, nextns, nptotal, pagesize, fextsiz, nextsiz from sysmaster:sysptnhdr a, sysmaster:systabnames b where a.partnum = b.partnum and b.dbsname not like 'sys%' and dbsname in( select name from sysmaster:sysdatabases) and b.tabname not like 'sys%' and tabname not like 'TBLSpace%' and (sysmaster:bitval(flags,'32')=1 or sysmaster:bitval(flags,'64')=1 or sysmaster:bitval(flags,'128')=1)",
+        "METRICS": [
+            "dbspace",
+            "database",
+            "tabname",
+            "nextns",
+            "nptotal",
+            "pagesize",
+            "fextsiz",
+            "nextsiz"
+        ],
+        "TYPE": "info",
+        "LABEL": "rank"
+    },{
+        "NAME": "topSQL",
+        "API": "ifx_top",
+        "CMD": "select current collect_time,sc.sid sid,sc.pid pid, sc.hostname, CASE WHEN TRIM(s.hostname)='' THEN TRIM(sc.username)|| '_unknown' ELSE TRIM(sc.username)|| '_' || TRIM(s.hostname) END as application,feprogram::char(200) programe,substr(trim(sysadmin:task('onstat',' -g sql',sc.sid)),350) sqx_sqlstatement from sysmaster:sysscblst sc, sysmaster:syssessions s,sysmaster:sysrstcb rs where sc.username != 'dbmon' and s.sid=sc.sid and sc.address=rs.scb",
+        "METRICS": [
+            "collect_time",
+            "sid",
+            "hostname",
+            "application",
+            "programe",
+            "sqx_sqlstatement"
+        ],
+        "TYPE": "info",
+        "LABEL": ""
+    },{
+        "NAME": "topExtTable",
+        "API": "ifx_top",
+        "CMD": "select first 10 (rownumber() over (order by nextns desc))::int rank,trim(dbinfo('DBSPACE',a.partnum)) dbspace,trim(dbsname) database,trim(tabname) table, a.partnum partnum, nextns, nptotal, pagesize, fextsiz, nextsiz from sysmaster:sysptnhdr a, sysmaster:systabnames b where a.partnum = b.partnum and b.dbsname not like 'sys%' and dbsname in( select name from sysmaster:sysdatabases) and b.tabname not like 'sys%' and tabname not like 'TBLSpace%' and sysmaster:bitval(flags,'32')<>1 and sysmaster:bitval(flags,'64')<>1 and sysmaster:bitval(flags,'128')<>1",
+        "METRICS": [
+            "dbspace",
+            "database",
+            "tabname",
+            "partnum",
+            "nextns",
+            "nptotal",
+            "pagesize",
+            "fextsiz",
+            "nextsiz"
+        ],
+        "TYPE": "info",
+        "LABEL": "rank"
+    },
+    {
+        "NAME": "topSerialv",
+        "API": "ifx_top",
+        "CMD": "select first 10 (rownumber() over (order by serialv desc))::int rank,trim(dbsname) database,trim(tabname) tabname,serialv from sysptnhdr a,systabnames b where a.partnum=b.partnum and tabname not like ('sys%') and tabname not like ('TBLSpace')",
+        "METRICS": [
+            "rank",
+            "database",
+            "tabanme",
+            "serialv"
+        ],
+        "TYPE": "info",
+        "LABEL": "rank"
+    },
+    {
+        "NAME": "topLock",
+        "API": "ifx_top",
+        "CMD": "SELECT r.sid,s.pid,l.type lock_type, dbinfo('utc_to_datetime', l.grtime) lock_taken_at,dbinfo('utc_current')-l.grtime seconds_taken, s.hostname, st.dbsname, st.tabname, rowidr row_id, dbinfo('dbspace', l.partnum) dbspace, s.progname, h.sid waiter_sid, l.partnum FROM syslcktab l, sysrstcb r, systabnames st, systxptab t, sysscblst s, sysrstcb h WHERE l.partnum = st.partnum AND l.owner = t.address AND t.owner = r.address AND l.wtlist = h.address AND s.sid = r.sid AND l.type IN (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10) AND dbsname != 'sysmaster' AND tabname != 'sysdatabases' AND h.sid IS NOT NULL",
+        "METRICS": [
+            "sid",
+            "pid",
+            "lock_type",
+            "lock_taken_at",
+            "seconds_taken",
+            "hostanme",
+            "dbsname",
+            "tabname",
+            "row_id",
+            "dbspace",
+            "progname",
+            "waiter_sid"
+        ],
+        "TYPE": "info",
+        "LABEL": ""
+    },
+    {
+        "NAME": "oninit_num",
+        "API": "ifx_smi",
+        "CMD": "select max(vpid) oninit_num from sysvpprof",
+        "METRICS": [
+            "oninit_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "stk_ovflow",
+        "API": "ifx_smi",
+        "CMD": "select sysadmin:task('onstat',\" -g sts|sed -n '8,$p'|awk '{if($4>95)print 'onstat -g opn '$1}'|sh|grep rstcb|sed -e 's/0x//g'|awk '{print ''onstat -u|grep ''$2}'|sh|awk '{if($4=='openbet')print}'|wc -l\")::int stk_ovflow from sysmaster:sysdual",
+        "METRICS": [
+            "stk_ovflow"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "wt_ses_num",
+        "API": "ifx_smi",
+        "CMD": "select count(*) wt_ses_num from sysmaster:sysrstcb A , sysmaster:systcblst B, sysmaster:sysscblst C WHERE A.tid = B.tid AND C.sid = A.sid AND lower(name) in  (\"sqlexec\") AND statedesc not in ('cond wait','running')",
+        "METRICS": [
+            "wt_ses_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "rb_tx_num",
+        "API": "ifx_smi",
+        "CMD": "select sysadmin:task('onstat',\" -x|grep R-|wc -l\")::int rb_tx_num from sysmaster:sysdual",
+        "METRICS": [
+            "rb_tx_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "rss_is_alive",
+        "API": "ifx_smi",
+        "CMD": "select count(*) rss_is_alive from sysha:rss_tab where state='C'",
+        "METRICS": [
+            "rss_is_alive"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "rss_gaps",
+        "API": "ifx_smi",
+        "CMD": "select uniqid-replay_loguniq rss_gaps from sysmaster:syslogs,sysha:rss_tab where is_current=1",
+        "METRICS": [
+            "rss_gaps"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "unbak_log_num",
+        "API": "ifx_smi",
+        "CMD": "select count(*) unbak_log_num from syslogs where is_used=1 and is_backed_up=0",
+        "METRICS": [
+            "unbak_log_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "down_chk_num",
+        "API": "ifx_smi",
+        "CMD": "select count(*) down_chk_num from syschunks where is_offline<>0",
+        "METRICS": [
+            "down_chk_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "ready_thread_num",
+        "API": "ifx_smi",
+        "CMD": "select sysadmin:task('onstat',\" -g rea|sed -n '/tid/,$p'|grep -v tid|grep -v ^$|wc -l\")::int ready_thread_num from sysmaster:sysdual",
+        "METRICS": [
+            "ready_thread_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "wait_mux_num",
+        "API": "ifx_smi",
+        "CMD": "select count(*) wait_mux_num from sysmutexes where mtx_wtlist>0",
+        "METRICS": [
+            "wait_mux_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "open_tx_num",
+        "API": "ifx_smi",
+        "CMD": "select sysadmin:task('onstat',\" -x|grep B-|wc -l\")::int open_tx_num from sysmaster:sysdual",
+        "METRICS": [
+            "open_tx_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "af_num",
+        "API": "ifx_smi",
+        "CMD": "select sysadmin:task('onstat -','|ls '||trim(cf_effective)||'|grep af|wc -l')::int af_num from sysconfig where cf_name='DUMPDIR'",
+        "METRICS": [
+            "af_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "shmdmp_num",
+        "API": "ifx_smi",
+        "CMD": "select sysadmin:task('onstat -','|ls '||trim(cf_effective)||'|grep shmem|wc -l')::int shmdmp_num_num from sysconfig where cf_name='DUMPDIR'",
+        "METRICS": [
+            "shmdmp_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "ifxdir_fsuse",
+        "API": "ifx_onstat",
+        "CMD": "df -h|sed '1d'|tr -s \"\n\" \" \"|awk -v str='' '{for(i=1;i<=NF;i++)if(i%6==0){str=str\" \"$i;print str;str=\"\"}else{str=str\" \"$i}}'|awk '{print $NF\":\"$(NF-1)}'|sed -e 's/%//g'",
+        "METRICS": [
+            "key",
+            "value"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "pre_ltx_num",
+        "API": "ifx_onstat",
+        "CMD": "ltxlog=`onstat -c|awk '{if($1==\"LTXHWM\"){ltxhwm=$NF/100}else if($1==\"LOGFILES\"){totlog=$NF}}END{print int(ltxhwm*totlog)}'`;onstat -x|sed -n '/address/,/concurrent/p'|egrep -v \"(address|concurrent)\"|awk '{if($5!=\"-\" && $6!=\"-\")print}'|awk -v num=0 '{split($5,a,\":\");split($6,b,\":\");if((b[1]-a[1]-'\"$ltxlog\"')>0){num+=1}}END{print \"pre_ltx_num:\"num}'",
+        "METRICS": [
+            "pre_ltx_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "user_conn",
+        "API": "ifx_smi",
+        "CMD": "select count(*) user_conn from sysmaster:sysrstcb A , sysmaster:systcblst B, sysmaster:sysscblst C WHERE A.tid = B.tid AND C.sid = A.sid AND lower(name) in (\"sqlexec\")",
+        "METRICS": [
+            "user_conn"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "block_ckpt",
+        "API": "ifx_smi",
+        "CMD": "select count(*) block_ckpt from syscheckpoint where type='Blocking'",
+        "METRICS": [
+            "block_ckpt"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "shmseg_num",
+        "API": "ifx_smi",
+        "CMD": "select count(*) shmseg_num from syssegments",
+        "METRICS": [
+            "shmseg_num"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "cluster_online_node1",
+        "API": "ifx_onstat",
+        "CMD": "sudo clustat 2>/dev/null|grep jsvfpredbs001_node|grep Online|wc -l|awk '{print \"cluster_online_node1:\"$0}'",
+        "METRICS": [
+            "cluster_online_node1"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "cluster_online_node2",
+        "API": "ifx_onstat",
+        "CMD": "sudo clustat 2>/dev/null|grep jsvfpredbs002_node|grep Online|wc -l|awk '{print \"cluster_online_node2:\"$0}'",
+        "METRICS": [
+            "cluster_online_node2"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "cluster_online_quorumd",
+        "API": "ifx_onstat",
+        "CMD": "sudo clustat 2>/dev/null|grep /dev/block/253:6|grep Online|wc -l|awk '{print \"cluster_online_quorumd:\"$0}'",
+        "METRICS": [
+            "cluster_online_quorumd"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "cluster_online_service",
+        "API": "ifx_onstat",
+        "CMD": "sudo clustat 2>/dev/null|grep service:jsvfpredbs_cluster|grep -w started|wc -l|awk '{print \"cluster_online_service:\"$0}'",
+        "METRICS": [
+            "cluster_online_service"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "topversion",
+        "API": "ifx_top",
+        "CMD": "select dbinfo('version','full') version from sysmaster:sysdual",
+        "METRICS": [
+            "version"
+        ],
+        "TYPE": "info",
+        "LABEL": "rank"
+    },
+    {
+        "NAME": "log_mode",
+        "API": "ifx_smi",
+        "CMD": "select is_logging log_mode from sysdatabases where name='openbet'",
+        "METRICS": [
+            "log_mode"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "log_type",
+        "API": "ifx_smi",
+        "CMD": "select is_buff_log log_type from sysdatabases where name='openbet'",
+        "METRICS": [
+            "log_type"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "ansi_mode",
+        "API": "ifx_smi",
+        "CMD": "select is_ansi ansi_mode from sysdatabases where name='openbet'",
+        "METRICS": [
+            "ansi_mode"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "dbsize",
+        "API": "ifx_smi",
+        "CMD": "select n.dbsname DATABASE, SUM(i.ti_nptotal * i.ti_pagesize)/1024/1024/1024 size_in_gb FROM systabnames n, systabinfo i, sysdatabases d WHERE n.partnum = i.ti_partnum AND n.dbsname = d.name and n.dbsname='openbet' GROUP BY 1",
+        "METRICS": [
+            "size_in_gb"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "log_usage",
+        "API": "ifx_smi",
+        "CMD": "select value*2 size from sysshmhdr where name='pf_llgpagewrites'",
+        "METRICS": [
+            "size"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "topmtx",
+        "API": "ifx_top",
+        "CMD": "select first 10 (rownumber() over (order by mtx_waittime,mtx_maxwait desc))::int rank, mtx_holder,mtx_wtlist,mtx_name,mtx_nwaits,mtx_curlen,mtx_totlen,mtx_maxlen,mtx_waittime,mtx_servtime,mtx_maxwait from sysmtxlst",
+        "METRICS": [
+            "mtx_holder",
+            "mtx_wtlist",
+            "mtx_name",
+            "mtx_nwaits",
+            "mtx_curlen",
+            "mtx_totlen",
+            "mtx_maxlen",
+            "mtx_waittime",
+            "mtx_servtime",
+            "mtx_maxwait"
+        ],
+        "TYPE": "info",
+        "LABEL": "rank"
+    }
+]

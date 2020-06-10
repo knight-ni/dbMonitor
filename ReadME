@@ -1,0 +1,28 @@
+prerequirement
+
+1.os_lib:
+xz-devel python-backports-lzma zlib zlib-dev openssl-devel sqlite-devel bzip2-devel libffi libffi-devel gcc gcc-c++ unixODBC* libffi-devel
+
+2.python_lib:
+see requirements.txt
+
+3.Informix CSDK installed
+
+4.ODBC installed and configured corrently to connect informix
+
+5.elasticsearch service worked on http://{es_url}/
+
+6.promethus service worked on at least one of {prometheus_lst}
+
+7.filebeat service installed and configured
+
+8.user dbmon be created and granted dba role from sysmaster and sysadmin, dbmon should be added in sudoer without password if clustat want to be monitor
+
+9.modify configuration file dbMon.conf/odbc.ini/enviroment file according to the actual situation
+
+10.add suspect issue if you want
+
+11.replace grafana db with my file
+
+12.config grafana from {grafana_sever}:3000
+
