@@ -11,8 +11,10 @@ export PYTHONPATH=/home/dbmon/Python37/lib/python3.7/site-packages/
 export ODBCINI=/home/dbmon/dbMonitor/odbc.ini
 export PATH=/home/dbmon/Python37/bin:$INFORMIXDIR/bin:$INFORMIXCLIENTDIR/bin:$PATH
 
-sh stopfb.sh
-sh startfb.sh
+PWD=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--}1'`
 
-sh stop_dbMon.sh
-sh start_dbMon.sh
+sh ${PWD}/stopfb.sh >/dev/null 2>/dev/null
+sh ${PWD}/startfb.sh
+
+sh ${PWD}/stop_dbMon.sh >/dev/null 2>/dev/null
+sh ${PWD}/start_dbMon.sh

@@ -5,6 +5,7 @@ import CmdRunner
 import JsonParser
 import QueryRunner
 import TopMonitor
+import copy
 
 
 class CollectData:

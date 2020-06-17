@@ -30,20 +30,23 @@ echo "Must Be Run as dbmon"
 exit 9
 fi
 
-rm -f nohup.out
-pypath=`awk -F'=' '{if($1=="pypath"){gsub("\r",""); print $NF}}' ../dbMon.conf`
+base=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`
+conf=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/dbMon.conf
+log=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/dbmon.log
+srv=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/WebSrv.py
+
+rm -f ${hup}
+pypath=`awk -F'=' '{if($1=="pypath"){gsub("\r",""); print $NF}}' ${conf}`
 python=${pypath}/bin/python3
-#echo " "|nice -n 18 nohup ${python} WebSrv.py &
-cd ..
-nohup ${python} WebSrv.py >/dev/null 2>dbmon.log &
+nohup ${python} ${srv} >/dev/null 2>${log} &
 
 while true
 do
-if [ -f nohup.out ] && [ `du -sm ${PWD}/nohup.out |awk '{print $1}'` -ge 10 ];then
-cp -f ${PWD}/nohup.out ${PWD}/nohup.out.`date +%Y%m%d`
-cat /dev/null >nohup.out
+if [ -f ${log} ] && [ `du -sm ${log}|awk '{print $1}'` -ge 10 ];then
+cp -f ${log} ${log}.`date +%Y%m%d`
+cat /dev/null >${log}
 else
-find ${PWD} -name "nohup.out.*" -mtime +3 -exec rm -rf {} \;
+find ${base} -name "$log.*" -mtime +3 -exec rm -rf {} \;
 sleep 60
 fi
 done >/dev/null 2>/dev/null &
