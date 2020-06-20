@@ -1,6 +1,6 @@
 #!/bin/sh
 
-conf=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--}1'`/dbMon.conf
+conf=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/dbMon.conf
 
 rm -rf nohup.out
 fbpath=`awk -F'=' '{if($1=="fbpath"){gsub("\r",""); print $NF}}' ${conf}`

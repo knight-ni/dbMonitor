@@ -13,5 +13,5 @@ export PATH=/home/dbmon/Python37/bin:$INFORMIXDIR/bin:$INFORMIXCLIENTDIR/bin:$PA
 
 PWD=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--}1'`
 
-sh ${PWD}/stopfb.sh >dev/null
-sh ${PWD}/stop_dbMon.sh >/dev/null
+sh ${PWD}/stopfb.sh >/dev/null
+sh ${PWD}/stop_dbMon.sh 

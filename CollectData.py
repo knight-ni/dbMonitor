@@ -6,6 +6,7 @@ import JsonParser
 import QueryRunner
 import TopMonitor
 import copy
+import sys
 
 
 class CollectData:
@@ -59,49 +60,118 @@ class CollectData:
                         values = ifx.values()
                         ifx = dict(zip(metrics, values))
 ################MODIFIED BY KNIGHT #####################################3
-                    if labels != "":
+                    if labels.strip()!="":
                         lablst = labels.split(',')
-                        lablst.append('hostname')
-                        lablst.append('metric')
+                        labbld = copy.copy(lablst)
+                        labbld.append('hostname')
+                        labbld.append('metric')
+                        tmplst = None
                         if metype == "gauge":
-                            value_dict[name] = Gauge(name, '', lablst, registry=registry)
-                            for labstr in labels.split(','):
-                                for idx, labval in enumerate(ifx.get(labstr)):
-                                    for metric in metrics:
-                                        tmp = [labval, self.hostname, metric]
-                                        value_dict[name].labels(*tmp).set(ifx.get(metric)[idx])
+                            value_dict[name] = Gauge(name, '', labbld, registry=registry)
+                            if len(lablst)>1:
+                                for labstr in lablst:
+                                    if not tmplst:
+                                        tmplst = [val for val in ifx.get(labstr)]
+                                    else:
+                                        tmplst = [[tmplst[idx], ifx.get(labstr)[idx]] for idx, val in enumerate(tmplst)]
+                            else:
+                                for labstr in lablst:
+                                    tmplst = [[val] for val in ifx.get(labstr)]
+                            for idx, labval in enumerate(tmplst):
+                                for metric in metrics:
+                                    tmp = [*labval, self.hostname, metric]
+                                    value_dict[name].labels(*tmp).set(ifx.get(metric)[idx])
+                        #if metype == "gauge":
+                        #    value_dict[name] = Gauge(name, '', lablst, registry=registry)
+                        #    for labstr in labels.split(','):
+                        #        for idx, labval in enumerate(ifx.get(labstr)):
+                        #            for metric in metrics:
+                        #                tmp = [labval, self.hostname, metric]
+                        #                value_dict[name].labels(*tmp).set(ifx.get(metric)[idx])
 
                         elif metype == "counter":
                             value_dict[name] = Counter(name, '', lablst, registry=registry)
-                            for labstr in labels.split(','):
-                                for idx, labval in enumerate(ifx.get(labstr)):
-                                    for metric in metrics:
-                                        tmp = [labval, self.hostname, metric]
-                                        value_dict[name].labels(*tmp).inc(ifx.get(metric)[idx])
+                            if len(lablst)>1:
+                                for labstr in lablst:
+                                    if not tmplst:
+                                        tmplst = [val for val in ifx.get(labstr)]
+                                    else:
+                                        tmplst = [[tmplst[idx], ifx.get(labstr)[idx]] for idx, val in enumerate(tmplst)]
+                            else:
+                                for labstr in lablst:
+                                    tmplst = [[val] for val in ifx.get(labstr)]
+                            for idx, labval in enumerate(tmplst):
+                                for metric in metrics:
+                                    tmp = [*labval, self.hostname, metric]
+                                    value_dict[name].labels(*tmp).set(ifx.get(metric)[idx])
+                            #for labstr in labels.split(','):
+                            #    for idx, labval in enumerate(ifx.get(labstr)):
+                            #        for metric in metrics:
+                            #            tmp = [labval, self.hostname, metric]
+                            #            value_dict[name].labels(*tmp).inc(ifx.get(metric)[idx])
 
                         elif metype == "info":
                             value_dict[name] = Info(name, '', lablst, registry=registry)
-                            for labstr in labels.split(','):
-                                for idx, labval in enumerate(ifx.get(labstr)):
-                                    for metric in metrics:
-                                        tmp = [labval, self.hostname, metric]
-                                        value_dict[name].labels(*tmp).info({name: ifx.get(metric)[idx]})
+                            if len(lablst)>1:
+                                for labstr in lablst:
+                                    if not tmplst:
+                                        tmplst = [val for val in ifx.get(labstr)]
+                                    else:
+                                        tmplst = [[tmplst[idx], ifx.get(labstr)[idx]] for idx, val in enumerate(tmplst)]
+                            else:
+                                for labstr in lablst:
+                                    tmplst = [[val] for val in ifx.get(labstr)]
+                            for idx, labval in enumerate(tmplst):
+                                for metric in metrics:
+                                    tmp = [*labval, self.hostname, metric]
+                                    value_dict[name].labels(*tmp).info({name: ifx.get(metric)[idx]})
+                            #for labstr in labels.split(','):
+                            #    for idx, labval in enumerate(ifx.get(labstr)):
+                            #        for metric in metrics:
+                            #            tmp = [labval, self.hostname, metric]
+                            #            value_dict[name].labels(*tmp).info({name: ifx.get(metric)[idx]})
 
                         elif metype == "histogram":
                             value_dict[name] = Histogram(name, '', lablst, registry=registry)
-                            for labstr in labels.split(','):
-                                for idx, labval in enumerate(ifx.get(labstr)):
-                                    for metric in metrics:
-                                        tmp = [labval, self.hostname, metric]
-                                        value_dict[name].labels(*tmp).observe(ifx.get(metric)[idx])
+                            if len(lablst)>1:
+                                for labstr in lablst:
+                                    if not tmplst:
+                                        tmplst = [val for val in ifx.get(labstr)]
+                                    else:
+                                        tmplst = [[tmplst[idx], ifx.get(labstr)[idx]] for idx, val in enumerate(tmplst)]
+                            else:
+                                for labstr in lablst:
+                                    tmplst = [[val] for val in ifx.get(labstr)]
+                            for idx, labval in enumerate(tmplst):
+                                for metric in metrics:
+                                    tmp = [*labval, self.hostname, metric]
+                                    value_dict[name].labels(*tmp).observe(ifx.get(metric)[idx])
+                            #for labstr in labels.split(','):
+                            #    for idx, labval in enumerate(ifx.get(labstr)):
+                            #        for metric in metrics:
+                            #            tmp = [labval, self.hostname, metric]
+                            #            value_dict[name].labels(*tmp).observe(ifx.get(metric)[idx])
 
                         elif metype == "summary":
                             value_dict[name] = Summary(name, '', lablst, registry=registry)
-                            for labstr in labels.split(','):
-                                for idx, labval in enumerate(ifx.get(labstr)):
-                                    for metric in metrics:
-                                        tmp = [labval, self.hostname, metric]
-                                        value_dict[name].labels(*tmp).observe(ifx.get(metric)[idx])
+                            if len(lablst)>1:
+                                for labstr in lablst:
+                                    if not tmplst:
+                                        tmplst = [val for val in ifx.get(labstr)]
+                                    else:
+                                        tmplst = [[tmplst[idx], ifx.get(labstr)[idx]] for idx, val in enumerate(tmplst)]
+                            else:
+                                for labstr in lablst:
+                                    tmplst = [[val] for val in ifx.get(labstr)]
+                            for idx, labval in enumerate(tmplst):
+                                for metric in metrics:
+                                    tmp = [*labval, self.hostname, metric]
+                                    value_dict[name].labels(*tmp).observe(ifx.get(metric)[idx])
+                            #for labstr in labels.split(','):
+                            #    for idx, labval in enumerate(ifx.get(labstr)):
+                            #        for metric in metrics:
+                            #            tmp = [labval, self.hostname, metric]
+                            #            value_dict[name].labels(*tmp).observe(ifx.get(metric)[idx])
 
     ############################################################################
                     else:
@@ -111,9 +181,9 @@ class CollectData:
                                 try:
                                     value_dict[name].labels(self.hostname, metric).set(ifx.get(metric)[0])
                                 except:
-                                    print(name)
-                                    print(metric)
-                                    print(ifx.get(metric))
+                                    print(name,file=sys.stderr)
+                                    print(metric,file=sys.stderr)
+                                    print(ifx.get(metric),file=sys.stderr)
                         elif metype == "counter":
                             value_dict = {name: Counter(name, '', ['hostname', 'metric'], registry=registry)}
                             for metric in metrics:
@@ -144,4 +214,4 @@ class CollectData:
 
 if __name__ == "__main__":
     reg = CollectData('jsvfpredbs').collect()
-    print(type(reg))
+    print(type(reg),file=sys.stderr)

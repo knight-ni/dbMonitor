@@ -173,7 +173,7 @@
     {
         "NAME": "top_ses",
         "API": "ifx_smi",
-        "CMD": "select sc.sid sid,progname,sum(rs.upf_dsksorts) dsksorts, sum(rs.upf_bufreads) bufreads, sum(rs.upf_bufwrites) bufwrites, sum(rs.nreads) pagreads, sum(rs.nwrites) pagwrites, sum(rs.upf_iswrite) iswrites, sum(rs.upf_isrwrite) isrewrites, sum(rs.upf_isdelete) isdeletes, sum(rs.upf_isrollback) isrollbacks, sum(rs.upf_wtlock) lockwts, sum(rs.lkwaittime) lockwaittime, sum(rs.iowaittime) iowaittime, sum(tc.cpu_time) cpu_time from sysmaster:sysscblst sc, sysmaster:sysrstcb rs, sysmaster:systcblst tc, sysmaster:syssessions s where sc.address=rs.scb and rs.tid=tc.tid and sc.username != 'dbmon' and s.sid=sc.sid group by sid,progname order by bufreads desc,bufwrites desc,lockwaittime desc,iowaittime desc,cpu_time desc",
+        "CMD": "select sc.sid sid,sum(rs.upf_dsksorts) dsksorts, sum(rs.upf_bufreads) bufreads, sum(rs.upf_bufwrites) bufwrites, sum(rs.nreads) pagreads, sum(rs.nwrites) pagwrites, sum(rs.upf_iswrite) iswrites, sum(rs.upf_isrwrite) isrewrites, sum(rs.upf_isdelete) isdeletes, sum(rs.upf_isrollback) isrollbacks, sum(rs.upf_wtlock) lockwts, sum(rs.lkwaittime) lockwaittime, sum(rs.iowaittime) iowaittime, sum(tc.cpu_time) cpu_time from sysmaster:sysscblst sc, sysmaster:sysrstcb rs, sysmaster:systcblst tc, sysmaster:syssessions s where sc.address=rs.scb and rs.tid=tc.tid and sc.username != 'dbmon' and s.sid=sc.sid group by sid order by bufreads desc,bufwrites desc,lockwaittime desc,iowaittime desc,cpu_time desc",
         "METRICS": [
             "dsksorts",
             "bufreads",
@@ -190,7 +190,7 @@
             "cpu_time"
         ],
         "TYPE": "gauge",
-        "LABEL": "sid,progname"
+        "LABEL": "sid"
     },
     {
         "NAME": "netstat",
@@ -482,7 +482,7 @@
     {
         "NAME": "shmdmp_num",
         "API": "ifx_smi",
-        "CMD": "select sysadmin:task('onstat -','|ls '||trim(cf_effective)||'|grep shmem|wc -l')::int shmdmp_num from sysconfig where cf_name='DUMPDIR'",
+        "CMD": "select sysadmin:task('onstat -','|ls '||trim(cf_effective)||'|grep shmem|wc -l')::int shmdmp_num_num from sysconfig where cf_name='DUMPDIR'",
         "METRICS": [
             "shmdmp_num"
         ],

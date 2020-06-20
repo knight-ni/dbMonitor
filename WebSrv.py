@@ -12,7 +12,7 @@ app = Flask(__name__, static_folder='templates')
 cfg = CfgParser.CfgParser()
 
 
-#@retry(stop_max_attempt_number=5, wait_fixed=2000)
+@retry(stop_max_attempt_number=5, wait_fixed=2000)
 def run_col(hostname):
     try:
         reg = CollectData.CollectData(hostname).collect()
@@ -60,15 +60,6 @@ def show_urls():
             for hostname in CfgParser.CfgParser().get_hosts()]
     return Response('<ur>''<br>'.join(data) + '</ur>')
 
-
-@app.errorhandler(500)
-def handle_500():
-    return "Internal Error"
-
-
-@app.errorhandler(404)
-def handle_404():
-    return render_template("index.html")
 
 def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')

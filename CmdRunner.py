@@ -2,6 +2,7 @@
 import CfgParser
 import os
 import subprocess
+import sys
 
 
 class CmdRunner:
@@ -20,10 +21,10 @@ class CmdRunner:
             try:
                 data = {row.split(':')[0]: [int(row.split(':')[1])] for row in bytes.decode(stdout).split('\n') if row}
             except:
-                print('error')
-                print(cmd)
-                print(stdout)
-                print(stderr)
+                print('error',file=sys.stderr)
+                print(cmd,file=sys.stderr)
+                print(stdout,file=sys.stderr)
+                print(stderr,file=sys.dtderr)
         elif outtype == 'info':
             data = {row.split(':')[0]: [' '.join(row.split(':')[1:])] for row in bytes.decode(stdout).split('\n') if row}
         return data
