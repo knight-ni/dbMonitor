@@ -8,7 +8,7 @@ see requirements.txt
 
 3.Informix CSDK installed
 
-4.ODBC installed and configured correctly to connect informix
+4.ODBC installed and configured corrently to connect informix
 
 5.elasticsearch service worked on http://{es_url}/
 

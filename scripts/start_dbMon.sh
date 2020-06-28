@@ -31,9 +31,9 @@ exit 9
 fi
 
 base=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`
-conf=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/dbMon.conf
+conf=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/conf/dbMon.conf
 log=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/dbmon.log
-srv=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/WebSrv.py
+srv=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/src/WebSrv.py
 
 rm -f ${hup}
 pypath=`awk -F'=' '{if($1=="pypath"){gsub("\r",""); print $NF}}' ${conf}`

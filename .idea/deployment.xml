@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData">
+  <component name="PublishConfigData" serverName="jsvfpredbs">
     <serverData>
-      <paths name="dbmon@172.30.203.15:22">
+      <paths name="jsvfpredbs">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/dbmon/dbMonitor" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/dbMonitor" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
