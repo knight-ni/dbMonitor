@@ -1,28 +1,57 @@
-prerequirement
+PREREQUIREMENT
 
-1.os_lib:
-xz-devel python-backports-lzma zlib zlib-dev openssl-devel sqlite-devel bzip2-devel libffi libffi-devel gcc gcc-c++ unixODBC* libffi-devel
+1.OS Lib:
+yum install -y xz-devel python-backports-lzma zlib zlib-dev openssl-devel sqlite-devel bzip2-devel libffi libffi-devel gcc gcc-c++ unixODBC* libffi-devel
 
-2.python_lib:
-see requirements.txt
+2.Python:
+Python 37 or later with ssl installed
 
-3.Informix CSDK installed
+3.Python Lib:
+pip install -r requirements.txt
 
-4.ODBC installed and configured corrently to connect informix
+4.Informix CSDK:
+IBM Informix CSDK 3.5 or later
 
-5.elasticsearch service worked on http://{es_url}/
+4.ODBC
+Config ODBC connection in conf/odbc.ini and set odbcini to it
 
-6.promethus service worked on at least one of {prometheus_lst}
+5.Elasticsearch
+"version" : {
+    "number" : "7.4.2",
+    "build_flavor" : "default",
+    "build_type" : "rpm",
+    "build_hash" : "2f90bbf7b93631e52bafb59b3b049cb44ec25e96",
+    "build_date" : "2019-10-28T20:40:44.881551Z",
+    "build_snapshot" : false,
+    "lucene_version" : "8.2.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
+} or later
 
-7.filebeat service installed and configured
+config es_url which service worked on in dbMon.conf
 
-8.user dbmon be created and granted dba role from sysmaster and sysadmin, dbmon should be added in sudoer without password if clustat want to be monitor
+6.Promethus
+prometheus-2.14.0 or later 
+config at least one server of {prometheus_lst} in dbMon.conf 
 
-9.modify configuration file dbMon.conf/odbc.ini/enviroment file according to the actual situation
+7.Filebeat
+filebeat-7.2.0 or later
+refer to sample/filebeat.yml
 
-10.add suspect issue if you want
+8.User
+user dbmon Must be created and granted dba role from sysmaster and sysadmin
+sudoer should be added without password if clustat want to be monitor also
 
-11.replace grafana db with my file
+9.Enviroment
+work on your virtualenv/real Python Enviroment and modify bash_profile according to the actual situation
 
-12.config grafana from {grafana_sever}:3000
+10.Suspects
+add/modify suspects as you want
+
+11.Boot
+run scripts/start_all.sh with user dbmon if you finish steps before correctlly and get message from dbmon.log
+
+12.Grafana
+import from sample/grafana and install plugins need
+
 
