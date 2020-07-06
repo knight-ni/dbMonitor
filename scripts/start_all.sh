@@ -1,9 +1,11 @@
 #!/bin/sh
 
-CWD=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`
 
-sh ${PWD}/scripts/stopfb.sh >/dev/null 2>/dev/null
-sh ${PWD}/scripts/startfb.sh
+basedir=$(dirname $(dirname $(readlink -f "$0")))
+scripts=${basedir}/scripts
 
-sh ${PWD}/scripts/stop_dbMon.sh >/dev/null 2>/dev/null
-sh ${PWD}/scripts/start_dbMon.sh
+sh ${scripts}/stopfb.sh >/dev/null 2>/dev/null
+sh ${scripts}/startfb.sh
+
+sh ${scripts}/stop_dbMon.sh >/dev/null 2>/dev/null
+sh ${scripts}/start_dbMon.sh

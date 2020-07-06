@@ -30,15 +30,17 @@ echo "Must Be Run as dbmon"
 exit 9
 fi
 
-base=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`
-conf=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/conf/dbMon.conf
-log=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/dbmon.log
-srv=`readlink -f $0 |awk -F'/' -v OFS='/' '{NF--NF--}1'`/src/WebSrv.py
+basedir=$(dirname $(dirname $(readlink -f "$0")))
+conf=${basedir}/conf/dbMon.conf
+env=${basedir}/conf/dbmon_env
+log=${basedir}/dbmon.log
+srv=${basedir}/src/WebSrv.py
 
-rm -f ${hup}
-pypath=`awk -F'=' '{if($1=="pypath"){gsub("\r",""); print $NF}}' ${conf}`
-python=${pypath}/bin/python3
-nohup ${python} ${srv} >/dev/null 2>${log} &
+source ${env}
+#pypath=`awk -F'=' '{if($1=="pypath"){gsub("\r",""); print $NF}}' ${conf}`
+source ~/.virtualenvs/dbMonitor/bin/activate
+#python=${pypath}/bin/python3
+nohup python ${srv} >/dev/null 2>${log} &
 
 while true
 do
@@ -46,7 +48,7 @@ if [ -f ${log} ] && [ `du -sm ${log}|awk '{print $1}'` -ge 10 ];then
 cp -f ${log} ${log}.`date +%Y%m%d`
 cat /dev/null >${log}
 else
-find ${base} -name "$log.*" -mtime +3 -exec rm -rf {} \;
+find ${basedir} -name "$log.*" -mtime +3 -exec rm -rf {} \;
 sleep 60
 fi
 done >/dev/null 2>/dev/null &

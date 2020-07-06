@@ -1,13 +1,7 @@
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
-172.30.5.188 - - [28/Jun/2020 09:29:41] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:30:11] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:30:40] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:31:11] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:31:40] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:32:10] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:32:41] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:33:11] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:33:40] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:34:11] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:34:41] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
-172.30.5.188 - - [28/Jun/2020 09:35:10] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [06/Jul/2020 18:58:11] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [06/Jul/2020 18:58:41] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [06/Jul/2020 18:59:10] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [06/Jul/2020 18:59:40] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [06/Jul/2020 19:00:10] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [06/Jul/2020 19:00:40] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
