@@ -52,6 +52,6 @@ add/modify suspects as you want
 run scripts/start_all.sh with user dbmon if you finish steps before correctlly and get message from dbmon.log
 
 12.Grafana
-import from sample/grafana and install plugins need
+import from sample/grafana and install plugins needed
 
 
