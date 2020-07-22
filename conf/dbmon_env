@@ -1,7 +1,7 @@
 export INFORMIXSERVERDIR=/opt/informix/INST1/informixdir
 export INFORMIXDIR=/opt/informix/INST1/informixclientdir
 export INFORMIXSQLHOSTS=$INFORMIXSERVERDIR/etc/sqlhosts.INST1
-export INFORMIXSERVER=jsvfpredb_tcp
+export INFORMIXSERVER=jsvftestdb_tcp
 export ONCONFIG=$INFORMIXSERVERDIR/etc/onconfig.INST1
 export LD_LIBRARY_PATH=/home/dbmon/openssl/lib:/opt/informix/INST1/informixdir/lib:/opt/informix/INST1/informixclientdir/lib:/opt/informix/INST1/informixclientdir/lib/esql:/opt/informix/INST1/informixclientdir/lib/cli:/opt/informix/INST1/informixclientdir/lib/client:/opt/informix/INST1/informixclientdir/lib/c++:/opt/informix/INST1/informixclientdir:/opt/informix/INST1/informixclientdir/lib/dmi:/home/dbmon/openssl/lib
 #export python=/home/dbmon/Python37/bin/python3.7
@@ -11,7 +11,6 @@ export ODBCINI=/home/dbmon/dbMonitor/conf/odbc.ini
 #export PATH=/home/dbmon/Python37/bin:$INFORMIXDIR/bin:$INFORMIXCLIENTDIR/bin:$PATH
 export VIRTUALENV_HOME=/home/dbmon/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=${VIRTUALENV_HOME}/dbMonitor/bin/python
-source ${VIRTUALENV_HOME}/dbMonitor/bin/virtualenvwrapper.sh
 export PYENV_ROOT="${HOME}/.pyenv"
 if [ -d "${PYENV_ROOT}" ]; then
   export PATH="${PYENV_ROOT}/bin:${PATH}"

@@ -1,0 +1,6 @@
+2020-07-22T23:05:27.443+0800	INFO	instance/beat.go:647	Home path: [/usr/share/filebeat] Config path: [/etc/filebeat] Data path: [/var/lib/filebeat] Logs path: [/var/log/filebeat]
+2020-07-22T23:05:27.443+0800	INFO	instance/beat.go:655	Beat ID: 231ed8cd-d13a-41dc-ace6-27b8871b131f
+2020-07-22T23:05:30.447+0800	INFO	[add_cloud_metadata]	add_cloud_metadata/add_cloud_metadata.go:89	add_cloud_metadata: hosting provider type not detected.
+2020-07-22T23:05:30.448+0800	INFO	instance/beat.go:404	filebeat stopped.
+2020-07-22T23:05:30.456+0800	ERROR	instance/beat.go:958	Exiting: data path already locked by another beat. Please make sure that multiple beats are not sharing the same data path (path.data).
+Exiting: data path already locked by another beat. Please make sure that multiple beats are not sharing the same data path (path.data).

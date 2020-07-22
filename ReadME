@@ -1,7 +1,7 @@
 PREREQUIREMENT
 
 1.OS Lib:
-yum install -y xz-devel python-backports-lzma zlib zlib-dev openssl-devel sqlite-devel bzip2-devel libffi libffi-devel gcc gcc-c++ unixODBC* libffi-devel
+yum install -y zlib-devel bzip2-devel ncurses-devel readline-devel tk-devel gcc make readline readline-devel readline-static openssl openssl-devel openssl-static sqlite-devel bzip2-devel bzip2-libs libffi-devel xz-devel
 
 2.Python:
 Python 3.72 with ssl installed

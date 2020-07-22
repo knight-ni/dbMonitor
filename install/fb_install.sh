@@ -5,21 +5,25 @@ echo "Must Run As Root";
 exit
 fi
 
-rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+if [ $# -ne 1 ];then
+echo "file or mode needed"
+exit 999
+fi
 
-cat <<EOF >/etc/yum.repos.d/elastic.repo
-[elastic-7.x]
-name=Elastic repository for 7.x packages
-baseurl=https://artifacts.elastic.co/packages/7.x/yum
-gpgcheck=1
-gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-autorefresh=1
-type=rpm-md
-EOF
+v1=7.8.0
+v2=x86_64
 
-yum install -y filebeat
+
+if [ $1 == "download" ];then
+wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-${v1}-${v2}.rpm -o filebeat-${v1}-${v2}.rpm
+else
+file=$1
+yum install -y $file
+fi
+
 cp  ../sample/filebeat/filebeat.yml /etc/filebeat/
+mkdir -p /var/lib/filebeat
+mkdir -p /var/log/filebeat
 chown -R dbmon.dbmon /etc/filebeat
 chown -R dbmon.dbmon /var/lib/filebeat
 chown -R dbmon.dbmon /var/log/filebeat
