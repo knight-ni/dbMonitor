@@ -25,6 +25,7 @@
 #  -P	the maximum number of pseudoterminals
 #  -T	the maximum number of threads
 
+
 if [ `whoami` != "dbmon" ];then
 echo "Must Be Run as dbmon"
 exit 9
@@ -37,10 +38,8 @@ log=${basedir}/dbmon.log
 srv=${basedir}/src/WebSrv.py
 
 source ${env}
-#pypath=`awk -F'=' '{if($1=="pypath"){gsub("\r",""); print $NF}}' ${conf}`
-source ~/.virtualenvs/dbMonitor/bin/activate
-#python=${pypath}/bin/python3
-nohup python ${srv} >/dev/null 2>${log} &
+. ~/.pyenv/versions/dbMonitor/bin/activate
+nohup python -B ${srv} >/dev/null 2>${log} &
 
 while true
 do
