@@ -55,15 +55,25 @@ run scripts/start_all.sh with user dbmon if you finish steps before correctlly a
 import from sample/grafana and install plugins needed
 
 
-Modify Config File in Sample Before Install
 
 Capture Server:
-1.run pyenv_install.sh
-2.run py_install.sh
-3.run yvirtualenv_install.sh
-4.run fb_install.sh
+Modify Config File dbMonitor.conf and odbc.ini in conf Before Install
+Make Sure your yum work normal
+
+   Run As Root
+   1.Make dir /home/dbmon
+   2.Move dbMonitor Directory to /home/dbmon and chown -R dbmon.dbmon /home/dbmon/
+   3.run user_create.sh to create dbmon
+   4.run preinstall.sh to install all package needed
+   5.run fb_install.sh
+
+   Run As dbmon
+   1.run pyenv_install.sh
+   2.run py_install.sh
+   3.run pyvirtualenv_install.sh
 
 Display Server:
-1.run prometheus_install.sh 
-2.run elastic_install.sh
-3.grafana_install.sh
+   Run As Root
+   1.run prometheus_install.sh 
+   2.run elastic_install.sh
+   3.grafana_install.sh

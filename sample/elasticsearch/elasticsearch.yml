@@ -34,7 +34,7 @@ path.data: /home/dbmon/data
 #
 # Path to log files:
 #
-path.logs: /home/dbmon/elasticsearch
+path.logs: /home/dbmon/logs
 #
 # ----------------------------------- Memory -----------------------------------
 #
@@ -71,7 +71,7 @@ http.port: 9200
 #
 # Bootstrap the cluster using an initial set of master-eligible nodes:
 #
-cluster.initial_master_nodes: ["172.30.5.188"]
+cluster.initial_master_nodes: ["172.30.5.210"]
 #
 # For more information, consult the discovery and cluster formation module documentation.
 #

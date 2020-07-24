@@ -30,32 +30,11 @@ scrape_configs:
     static_configs:
     - targets: ['localhost:9090']
 
-  - job_name: 'dbMonitor-jsvftestdbs'
+  - job_name: 'dbMonitor-jsvfmysqldbs'
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
-    metrics_path: /metrics/jsvftestdbs
+    metrics_path: /metrics/jsvfmysqldbs
 
     static_configs:
-    - targets: ['172.30.103.11:5000']
-
-  - job_name: 'dbMonitor-jsvfpredbs'
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    metrics_path: /metrics/jsvfpredbs
-
-    static_configs:
-    - targets: ['172.30.203.15:5000']
-
-  - job_name: 'MySQL_Monitor'
-
-   
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    metrics_path: /metrics
-
-    static_configs:
-    - targets: ['172.30.5.71:9104','172.30.5.71:9105','172.30.5.71:9106']
-      labels:
-        group: 'promethus'
+    - targets: ['172.30.5.212:5000']
