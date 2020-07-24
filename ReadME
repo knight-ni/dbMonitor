@@ -77,3 +77,4 @@ Display Server:
    1.run prometheus_install.sh 
    2.run elastic_install.sh
    3.grafana_install.sh
+   4.import panel from sample/granfa/*.json file and create data source
