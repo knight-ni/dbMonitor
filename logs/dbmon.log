@@ -1,0 +1,6 @@
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+172.30.5.188 - - [27/Jul/2020 20:25:10] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [27/Jul/2020 20:25:40] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [27/Jul/2020 20:26:10] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.5.188 - - [27/Jul/2020 20:26:40] "[37mGET /metrics/jsvfpredbs HTTP/1.1[0m" 200 -
+172.30.203.15 - - [27/Jul/2020 20:26:55] "[37mPOST /shutdown HTTP/1.1[0m" 200 -

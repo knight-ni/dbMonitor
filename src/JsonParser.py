@@ -12,6 +12,10 @@ class JSONParser:
         # cfg = CfgParser.CfgParser(hostname)
         mon_list = self.cfg.get_mon_list(self.hostname)
         return mon_list
+   
+    def get_skip_list(self):
+        skip_list = self.cfg.get_skip_list(self.hostname)
+        return skip_list
 
     def get_json_obj(self, name):
         with open("conf/suspects.json", 'r') as load_f:

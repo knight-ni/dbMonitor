@@ -12,6 +12,9 @@ class CfgParser:
             return self.parser.get(hostname, 'monlst').split(',')
         else:
             return JsonParser.JSONParser(hostname).get_all_mon()
+    
+    def get_skip_list(self, hostname):
+        return self.parser.get(hostname, 'skiplst').split(',')
 
     def get_dsn(self, hostname):
         return self.parser.get(hostname, 'dsn')

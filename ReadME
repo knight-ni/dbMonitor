@@ -57,7 +57,11 @@ import from sample/grafana and install plugins needed
 
 
 Capture Server:
-Modify Config File dbMonitor.conf and odbc.ini in conf Before Install
+Modify Config File:
+dbMonitor.conf 
+odbc.ini
+dbmon_env
+in conf Before Install
 Make Sure your yum work normal
 
    Run As Root

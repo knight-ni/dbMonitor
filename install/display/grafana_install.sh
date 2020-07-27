@@ -22,9 +22,13 @@ fi
 yum install -y grafana-${v1}.${v2}.rpm
 rm /etc/yum.repos.d/Grafana.repo
 
-for p in grafana-piechart-panel michaeldmoore-annunciator-panel
+for p in grafana-clock-panel grafana-piechart-panel michaeldmoore-annunciator-panel
 do
+if [ ${p} == "grafana-clock-panel" ];then
+grafana-cli plugins install $p 1.0.3
+else
 grafana-cli plugins install $p
+fi
 done
 
 /etc/rc.d/init.d/grafana-server restart

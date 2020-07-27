@@ -20,18 +20,29 @@ fi
 /bin/cp -rp ${basedir}/sample/elasticsearch/elasticsearch.yml /etc/elasticsearch-${v1}/config/
 
 sed -i 's!cluster.initial_master_nodes.*!cluster.initial_master_nodes: ["'"${ip}"'"]!' /etc/elasticsearch-${v1}/config/elasticsearch.yml
+sed -i 's!network.host.*!network.host: '"${ip}"'!' /etc/elasticsearch-${v1}/config/elasticsearch.yml
 sed -i 's!http.port.*!http.port: '"${port}"'!' /etc/elasticsearch-${v1}/config/elasticsearch.yml
 
 
 chown -R dbmon.dbmon /etc/elasticsearch-${v1}
 
 nofile=`su - dbmon -c "ulimit -n"`
+thread=`su - dbmon -c "ulimit -u"`
 
 if [ $nofile -lt 65536 ];then
 cat <<EOF >>/etc/security/limits.conf
 ############add for dbmon
 dbmon soft nofile 65536
 dbmon hard nofile 65536
+
+EOF
+fi
+
+if [ $thread -lt 65536 ];then
+cat <<EOF >>/etc/security/limits.conf
+############add for dbmon
+dbmon soft nproc 65536
+dbmon hard nproc 65536
 
 EOF
 fi

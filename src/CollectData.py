@@ -32,7 +32,8 @@ class CollectData:
                 TopMonitor.TOPMonitor(self.hostname).getmon()
                 parser = JsonParser.JSONParser(self.hostname)
                 mon_list = parser.get_mon_list()
-                for mon in mon_list:
+                skip_list = parser.get_skip_list()
+                for mon in list(set(mon_list).difference(set(skip_list))):
                     value_dict = {}
                     api = parser.get_json_obj(mon)['API']
                     name = parser.get_json_obj(mon)['NAME']

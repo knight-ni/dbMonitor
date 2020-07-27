@@ -13,7 +13,7 @@ py_setup(){
        export CPPFLAGS="-I/usr/local/openssl/include";
        export PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig";
        if [ ! -f ~/.pyenv/cache/Python-$v.tar.xz ];then
-          wget https://npm.taobao.org/mirrors/python//$v/Python-$v.tar.xz -P ~/.pyenv/cache;
+          wget --no-check-certificate https://npm.taobao.org/mirrors/python//$v/Python-$v.tar.xz -P ~/.pyenv/cache;
        fi
        pyenv install $v
     else
