@@ -16,7 +16,7 @@ fi
 
 yum install -y $file
 
-for p in grafana-clock-panel grafana-piechart-panel michaeldmoore-annunciator-panel
+for p in grafana-piechart-panel michaeldmoore-annunciator-panel
 do
 grafana-cli plugins install $p
 done
