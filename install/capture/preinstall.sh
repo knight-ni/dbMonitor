@@ -14,6 +14,14 @@ sslv2=f
 libresslv=3.2.0
 osv=`uname -r|awk -F"." '{print $4}'|sed -e 's/el//g'`
 
+glibc_check(){
+    gv=`ls -la /lib/libc.so.6|awk '{print $NF}'|awk -F'-' '{print $2}'|sed -e s'/so//g' -e 's/\.//g'`
+    if [ ${gv} -lt 217 ];then
+       echo "Glibc Version Too Low,Please Upgrade To Glibc 2.17 or later."
+       exit 999
+    fi
+}
+
 check(){
     if [ $? -eq 0 ];then
        echo success
@@ -85,6 +93,7 @@ clean(){
     rm -rf ${pwd}/libressl-${libresslv}
 }
 
+glibc_check
 pack_setup
 
 x1=`openssl version|grep -c ${sslv1}${sslv2}`

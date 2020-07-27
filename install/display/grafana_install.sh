@@ -22,7 +22,7 @@ fi
 yum install -y grafana-${v1}.${v2}.rpm
 rm /etc/yum.repos.d/Grafana.repo
 
-for p in grafana-clock-panel grafana-piechart-panel michaeldmoore-annunciator-panel
+for p in grafana-piechart-panel michaeldmoore-annunciator-panel
 do
 grafana-cli plugins install $p
 done

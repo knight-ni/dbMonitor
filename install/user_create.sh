@@ -12,3 +12,12 @@ useradd ${username}
 echo ${password}|passwd ${username} --stdin
 echo ". ${basedir}/conf/dbmon_env" >>~dbmon/.bash_profile
 fi
+
+cat <<EOF >grant.sql
+echo "grant connect to ${username}"|dbaccess sysadmin
+echo "grant resource to ${username}"|dbaccess sysadmin
+echo "grant dba to ${username}"|dbaccess sysadmin
+echo "grant connect to ${username}"|dbaccess sysmaster
+echo "grant resource to ${username}"|dbaccess sysmaster
+echo "grant dba to ${username}"|dbaccess sysmaster
+EOF

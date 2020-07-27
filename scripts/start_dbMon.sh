@@ -34,7 +34,7 @@ fi
 basedir=$(dirname $(dirname $(readlink -f "$0")))
 conf=${basedir}/conf/dbMon.conf
 env=${basedir}/conf/dbmon_env
-log=${basedir}/dbmon.log
+log=${basedir}/logs/dbmon.log
 srv=${basedir}/src/WebSrv.py
 
 source ${env}

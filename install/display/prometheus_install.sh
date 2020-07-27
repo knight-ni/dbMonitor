@@ -38,7 +38,7 @@ fi
 cat <<EOF >/etc/prometheus-${v1}.${v2}/start.sh
 #/bin/sh
 cd /etc/prometheus-${v1}.${v2}
-nohup ./prometheus --config.file=./prometheus.yml --storage.tsdb.retention.time=15d &
+nohup ./prometheus --config.file=./prometheus.yml --storage.tsdb.retention.time=15d >/etc/prometheus-${v1}.${v2}/promethus.log 2>&1 &
 EOF
 
 cat <<EOF >/etc/prometheus-${v1}.${v2}/stop.sh
