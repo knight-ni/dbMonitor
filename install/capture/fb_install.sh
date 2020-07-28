@@ -12,7 +12,7 @@ if [  ! -f filebeat-${v1}-${v2}.rpm ];then
     wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-${v1}-${v2}.rpm -o filebeat-${v1}-${v2}.rpm
 fi
 
-yum install -y filebeat-${v1}-${v2}.rpm
+yum localinstall -y filebeat-${v1}-${v2}.rpm
 
 basedir=$(dirname $(dirname $(dirname $(readlink -f "$0"))))
 conf=${basedir}/conf/dbMon.conf

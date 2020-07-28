@@ -8,12 +8,14 @@ password=`awk -F'=' '{if($1=="password"){gsub("\r",""); print $NF}}' ${conf}`
 
 id ${username} >/dev/null 2>/dev/null
 if [ $? -ne 0 ];then
-useradd ${username}
+useradd ${username} -g ${username} -G informix
 echo ${password}|passwd ${username} --stdin
 echo ". ${basedir}/conf/dbmon_env" >>~dbmon/.bash_profile
 fi
 
-cat <<EOF >grant.sql
+echo "Run Command Followed as informix to grant permission to ${username}."
+
+cat <<EOF
 echo "grant connect to ${username}"|dbaccess sysadmin
 echo "grant resource to ${username}"|dbaccess sysadmin
 echo "grant dba to ${username}"|dbaccess sysadmin

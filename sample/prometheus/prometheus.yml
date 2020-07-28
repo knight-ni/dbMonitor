@@ -29,12 +29,3 @@ scrape_configs:
 
     static_configs:
     - targets: ['localhost:9090']
-
-  - job_name: 'dbMonitor-jsvfmysqldbs'
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    metrics_path: /metrics/jsvfmysqldbs
-
-    static_configs:
-    - targets: ['172.30.5.212:5000']

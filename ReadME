@@ -1,84 +1,41 @@
-PREREQUIREMENT
+Prerequirement 
 
-1.OS Lib:
-yum install -y zlib-devel bzip2-devel ncurses-devel readline-devel tk-devel gcc make readline readline-devel readline-static openssl openssl-devel openssl-static sqlite-devel bzip2-devel bzip2-libs libffi-devel xz-devel
+Informix Server 11.7 or later
+Informix CSDK 3.5 or later
+Yum work normal
 
-2.Python:
-Python 3.72 with ssl installed
-
-3.Python Lib:
-pip install -r requirements.txt
-
-4.Informix CSDK:
-IBM Informix CSDK 3.5 or later
-
-4.ODBC
-Config ODBC connection in conf/odbc.ini and set odbcini to it
-
-5.Elasticsearch
-"version" : {
-    "number" : "7.4.2",
-    "build_flavor" : "default",
-    "build_type" : "rpm",
-    "build_hash" : "2f90bbf7b93631e52bafb59b3b049cb44ec25e96",
-    "build_date" : "2019-10-28T20:40:44.881551Z",
-    "build_snapshot" : false,
-    "lucene_version" : "8.2.0",
-    "minimum_wire_compatibility_version" : "6.8.0",
-    "minimum_index_compatibility_version" : "6.0.0-beta1"
-} or later
-
-config es_url which service worked on in dbMon.conf
-
-6.Promethus
-prometheus-2.14.0 or later 
-config at least one server of {prometheus_lst} in dbMon.conf 
-
-7.Filebeat
-filebeat-7.2.0 or later
-refer to sample/filebeat.yml
-
-8.User
-user dbmon Must be created and granted dba role from sysmaster and sysadmin
-sudoer should be added without password if clustat want to be monitor also
-
-9.Enviroment
-work on your virtualenv/real Python Enviroment and modify bash_profile according to the actual situation
-
-10.Suspects
-add/modify suspects as you want
-
-11.Boot
-run scripts/start_all.sh with user dbmon if you finish steps before correctlly and get message from dbmon.log
-
-12.Grafana
-import from sample/grafana and install plugins needed
-
-
+something before install dbMonitor:
 
 Capture Server:
-Modify Config File:
-dbMonitor.conf 
-odbc.ini
-dbmon_env
-in conf Before Install
-Make Sure your yum work normal
+   modify files below according to actual condition:
+   conf/dbMonitor.conf 
+   conf/odbc.ini
+   conf/dbmon_env
 
-   Run As Root
-   1.Make dir /home/dbmon
-   2.Move dbMonitor Directory to /home/dbmon and chown -R dbmon.dbmon /home/dbmon/
-   3.run user_create.sh to create dbmon
-   4.run preinstall.sh to install all package needed
-   5.run fb_install.sh
+   steps as root 
+   1.make dir /home/dbmon
+   2.move directory dbMonitor to /home/dbmon/ and chown -R dbmon.dbmon /home/dbmon/
+   3.run install/capture/user_create.sh 
+   4.run install/capture/preinstall.sh 
+   5.run install/capture/fb_install.sh
 
-   Run As dbmon
-   1.run pyenv_install.sh
-   2.run py_install.sh
-   3.run pyvirtualenv_install.sh
+   steps as dbmon
+   1.run install/capture/pyenv_install.sh
+   2.run install/capture/py_install.sh
+   3.run install/capture/pyvirtualenv_install.sh
 
 Display Server:
-   Run As Root
-   1.run prometheus_install.sh 
-   2.run elastic_install.sh
-   3.grafana_install.sh
-   4.import panel from sample/granfa/*.json file and create data source
+   steps as root
+   1.run install/display/prometheus_install.sh 
+   2.run install/display/elastic_install.sh
+   3.run install/display/grafana_install.sh
+   4.import panel from sample/granfa/*.json file and create corresponding data source
+
+Important!!!!!!!!!!!!!!!!!!!!!!!
+make sure run dbMonitor Command In Directory /home/dbmon/dbMonitor or you may get error "no section from CfgParser"
+
+start
+sh scripts/start_all.sh
+
+stop
+sh scripts/stop_all.sh

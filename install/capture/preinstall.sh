@@ -48,11 +48,12 @@ baseurl=http://mirrors.163.com/centos/${osv}/os/x86_64/
 mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os
 gpgcheck=0
 EOF
-    mis_pack=`rpm -q zlib-devel bzip2-devel ncurses-devel readline-devel tk-devel gcc make readline readline-devel readline-static openssl openssl-devel openssl-static sqlite-devel bzip2-devel bzip2-libs libffi-devel xz-devel unixODBC-devel unzip wget gcc-c++|grep installed|awk '{print $2}'|sed -e ':a;N;s/\n/ /;ta'`
+    mis_pack=`rpm -q zlib-devel bzip2-devel ncurses-devel readline-devel tk-devel gcc make readline readline-devel readline-static openssl openssl-devel openssl-static sqlite-devel bzip2-devel bzip2-libs libffi-devel xz-devel unixODBC-devel unzip wget gcc-c++ git nss firefox|grep installed|awk '{print $2}'|sed -e ':a;N;s/\n/ /;ta'`
     if [ "$mis_pack" != "" ];then
         yum install -y deltarpm --enablerepo=dbMonitor
         yum install -y ${mis_pack} --enablerepo=dbMonitor
     fi
+    yum update -y firefox nss
     rpm -q zlib-devel bzip2-devel ncurses-devel readline-devel tk-devel gcc make readline readline-devel readline-static openssl openssl-devel openssl-static sqlite-devel bzip2-devel bzip2-libs libffi-devel xz-devel |grep "not installed"
     rcheck
     rm /etc/yum.repos.d/CentOS${osv}.repo

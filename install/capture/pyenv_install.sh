@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-#yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
-#yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-#subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"  --enable "rhel-ha-for-rhel-*-server-rpms"
-#yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-#or install git from local yum repo
 
 set -e
 [ -n "$PYENV_DEBUG" ] && set -x

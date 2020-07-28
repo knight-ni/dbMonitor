@@ -18,10 +18,11 @@ conf=${basedir}/conf/dbMon.conf
 hostname=`awk -F'=' '{if($1=="dsn"){gsub("\r",""); print $NF}}' ${conf}`
 localip=`awk -F'=' '{if($1=="local_ip"){gsub("\r",""); print $NF}}' ${conf}`
 
-grep -q ${localip} ${basedir}/sample/prometheus/prometheus.yml
+/bin/cp -rp ${basedir}/sample/prometheus/prometheus.yml /etc/prometheus-${v1}.${v2}/
+grep -q ${localip} /etc/prometheus-${v1}.${v2}/prometheus.yml
 
 if [ $? -ne 0 ];then
-cat <<EOF >>${basedir}/sample/prometheus/prometheus.yml
+cat <<EOF >>/etc/prometheus/prometheus.yml
 
   - job_name: 'dbMonitor-${hostname}'
 
@@ -34,7 +35,6 @@ cat <<EOF >>${basedir}/sample/prometheus/prometheus.yml
 EOF
 fi
 
-/bin/cp -rp ${basedir}/sample/prometheus/prometheus.yml /etc/prometheus-${v1}.${v2}/
 cat <<EOF >/etc/prometheus-${v1}.${v2}/start.sh
 #/bin/sh
 cd /etc/prometheus-${v1}.${v2}
@@ -45,3 +45,5 @@ cat <<EOF >/etc/prometheus-${v1}.${v2}/stop.sh
 #/bin/sh
 ps -ef|grep prometheus|grep -v grep|grep storage.tsdb.retention.time|awk '{print "kill -15 "\$2}'|sh
 EOF
+
+chown -R dbmon.dbmon /etc/prometheus-${v1}.${v2}

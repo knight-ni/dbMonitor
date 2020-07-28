@@ -19,7 +19,7 @@ if [ ! -f grafana-${v1}.${v2}.rpm ];then
     yum install -y grafana
 fi
 
-yum install -y grafana-${v1}.${v2}.rpm
+yum localinstall -y grafana-${v1}.${v2}.rpm
 rm /etc/yum.repos.d/Grafana.repo
 
 for p in grafana-clock-panel grafana-piechart-panel michaeldmoore-annunciator-panel

@@ -23,9 +23,6 @@ sed -i 's!cluster.initial_master_nodes.*!cluster.initial_master_nodes: ["'"${ip}
 sed -i 's!network.host.*!network.host: '"${ip}"'!' /etc/elasticsearch-${v1}/config/elasticsearch.yml
 sed -i 's!http.port.*!http.port: '"${port}"'!' /etc/elasticsearch-${v1}/config/elasticsearch.yml
 
-
-chown -R dbmon.dbmon /etc/elasticsearch-${v1}
-
 nofile=`su - dbmon -c "ulimit -n"`
 thread=`su - dbmon -c "ulimit -u"`
 
@@ -75,3 +72,4 @@ cat <<EOF >/etc/elasticsearch-${v1}/stop.sh
 ps -ef|grep elasticsearch|grep -v grep|awk '{print "kill -15 "\$2}'|sh
 EOF
 
+chown -R dbmon.dbmon /etc/elasticsearch-${v1}
