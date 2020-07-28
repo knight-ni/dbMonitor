@@ -5,3 +5,5 @@
 /install/capture/openssl-1.1.1f.tar.gz
 /install/capture/pyenv-master.zip
 /install/capture/pyenv-virtualenv-master.zip
+/logs/dbmon.log
+/logs/filebeat.log
