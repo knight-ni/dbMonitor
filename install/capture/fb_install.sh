@@ -18,12 +18,13 @@ basedir=$(dirname $(dirname $(dirname $(readlink -f "$0"))))
 conf=${basedir}/conf/dbMon.conf
 
 es_addr=`awk -F'=' '{if($1=="es_url"){gsub("\r",""); print $NF}}' ${conf}`
+username=`awk -F'=' '{if($1=="username"){gsub("\r",""); print $NF}}' ${conf}`
 
 /bin/cp ${basedir}/sample/filebeat/filebeat.yml /etc/filebeat/
 sed -i 's! hosts: .*! hosts: ['"${es_addr}"']!' /etc/filebeat/filebeat.yml
 
 mkdir -p /var/lib/filebeat
 mkdir -p /var/log/filebeat
-chown -R dbmon.dbmon /etc/filebeat
-chown -R dbmon.dbmon /var/lib/filebeat
-chown -R dbmon.dbmon /var/log/filebeat
+chown -R ${username}.${username} /etc/filebeat
+chown -R ${username}.${username} /var/lib/filebeat
+chown -R ${username}.${username} /var/log/filebeat

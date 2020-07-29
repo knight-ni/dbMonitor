@@ -7,6 +7,7 @@ conf=${basedir}/conf/dbMon.conf
 
 rm -rf nohup.out
 es_addr=`awk -F'=' '{if($1=="es_url"){gsub("\r",""); print $NF}}' ${conf}`
+username=`awk -F'=' '{if($1=="username"){gsub("\r",""); print $NF}}' ${conf}`
 read ip port <<<`echo ${es_addr}|awk -F":" '{print $1" "$2}'`
 
 if [ ! -f elasticsearch-${v1}-${v2}.tar.gz ];then
@@ -23,23 +24,23 @@ sed -i 's!cluster.initial_master_nodes.*!cluster.initial_master_nodes: ["'"${ip}
 sed -i 's!network.host.*!network.host: '"${ip}"'!' /etc/elasticsearch-${v1}/config/elasticsearch.yml
 sed -i 's!http.port.*!http.port: '"${port}"'!' /etc/elasticsearch-${v1}/config/elasticsearch.yml
 
-nofile=`su - dbmon -c "ulimit -n"`
-thread=`su - dbmon -c "ulimit -u"`
+nofile=`su - ${username} -c "ulimit -n"`
+thread=`su - ${uesrname} -c "ulimit -u"`
 
 if [ $nofile -lt 65536 ];then
 cat <<EOF >>/etc/security/limits.conf
-############add for dbmon
-dbmon soft nofile 65536
-dbmon hard nofile 65536
+############add for ${username}
+${username} soft nofile 65536
+${username} hard nofile 65536
 
 EOF
 fi
 
 if [ $thread -lt 65536 ];then
 cat <<EOF >>/etc/security/limits.conf
-############add for dbmon
-dbmon soft nproc 65536
-dbmon hard nproc 65536
+############add for ${username}
+${username} soft nproc 65536
+${username} hard nproc 65536
 
 EOF
 fi
@@ -55,7 +56,7 @@ fi
 
 cat <<EOF >/etc/elasticsearch-${v1}/start.sh
 #/bin/sh
-su - dbmon -c "cd /etc/elasticsearch-${v1}/bin;nohup ./elasticsearch >/etc/elasticsearch-${v1}/logs/elasticsearch.log &"
+su - ${username} -c "cd /etc/elasticsearch-${v1}/bin;nohup ./elasticsearch >/etc/elasticsearch-${v1}/logs/elasticsearch.log &"
 
 curl http://${ip}:${port}
 while [ \$? -ne 0 ];
@@ -72,4 +73,4 @@ cat <<EOF >/etc/elasticsearch-${v1}/stop.sh
 ps -ef|grep elasticsearch|grep -v grep|awk '{print "kill -15 "\$2}'|sh
 EOF
 
-chown -R dbmon.dbmon /etc/elasticsearch-${v1}
+chown -R ${username}.${username} /etc/elasticsearch-${v1}

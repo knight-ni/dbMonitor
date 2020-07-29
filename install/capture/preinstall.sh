@@ -15,10 +15,21 @@ libresslv=3.2.0
 osv=`uname -r|awk -F"." '{print $4}'|sed -e 's/el//g'`
 
 glibc_check(){
-    gv=`ls -la /lib/libc.so.6|awk '{print $NF}'|awk -F'-' '{print $2}'|sed -e s'/so//g' -e 's/\.//g'`
-    if [ ${gv} -lt 217 ];then
-       echo "Glibc Version Too Low,Please Upgrade To Glibc 2.17 or later."
-       exit 999
+    gv=`ls -la /lib64/libc.so.6|awk '{print $NF}'|awk -F'-' '{print $2}'|sed -e s'/so//g' -e 's/\.//g'`
+    if [ "${gv}" -lt 217 ];then
+       echo "Glibc Version Too Low,Trying Upgrade To Glibc 2.17."
+       if [ ! -f glibc-2.17.tar.gz ];then
+           wget http://ftp.gnu.org/gnu/glibc/glibc-2.17.tar.gz
+       fi
+       tar -zxvf glibc-2.17.tar.gz
+       cd glibc-2.17
+       mkdir build
+       cd build
+       ../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin
+       make && make install
+       if [ $? -ne 0 ];then
+          exit 999
+       fi
     fi
 }
 

@@ -13,11 +13,10 @@ Capture Server:
    conf/dbmon_env
 
    steps as root 
-   1.make dir /home/dbmon
-   2.move directory dbMonitor to /home/dbmon/ and chown -R dbmon.dbmon /home/dbmon/
-   3.run install/capture/user_create.sh 
-   4.run install/capture/preinstall.sh 
-   5.run install/capture/fb_install.sh
+   1.move and unzip dbMonitor.tar.gz to your directory
+   2.run install/capture/user_create.sh 
+   3.run install/capture/preinstall.sh 
+   4.run install/capture/fb_install.sh
 
    steps as dbmon
    1.run install/capture/pyenv_install.sh

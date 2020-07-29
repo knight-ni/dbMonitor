@@ -16,6 +16,7 @@ basedir=$(dirname $(dirname $(dirname $(readlink -f "$0"))))
 conf=${basedir}/conf/dbMon.conf
 
 hostname=`awk -F'=' '{if($1=="dsn"){gsub("\r",""); print $NF}}' ${conf}`
+username=`awk -F'=' '{if($1=="username"){gsub("\r",""); print $NF}}' ${conf}`
 localip=`awk -F'=' '{if($1=="local_ip"){gsub("\r",""); print $NF}}' ${conf}`
 
 /bin/cp -rp ${basedir}/sample/prometheus/prometheus.yml /etc/prometheus-${v1}.${v2}/
@@ -46,4 +47,4 @@ cat <<EOF >/etc/prometheus-${v1}.${v2}/stop.sh
 ps -ef|grep prometheus|grep -v grep|grep storage.tsdb.retention.time|awk '{print "kill -15 "\$2}'|sh
 EOF
 
-chown -R dbmon.dbmon /etc/prometheus-${v1}.${v2}
+chown -R ${username}.${username} /etc/prometheus-${v1}.${v2}
