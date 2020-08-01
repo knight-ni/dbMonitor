@@ -16,20 +16,22 @@ class CollectData:
     def collect(self):
         srunner = QueryRunner.QryRunner(self.hostname)
         crunner = CmdRunner.CmdRunner(self.hostname)
+        topmon = TopMonitor.TOPMonitor(self.hostname)
         registry = CollectorRegistry(auto_describe=False)
         starttime = datetime.datetime.now()
         try:
             is_alive = srunner.conn_is_alive()
+            es_alive = topmon.ping()
             succ = Histogram('collect_succ', 'collect successful', ['hostname', 'metric'], registry=registry, buckets=(0, 1))
             time = Gauge('collect_time', 'collect time', ['hostname', 'metric'], registry=registry)
             successful = 0
-            if is_alive != 1:
+            if not is_alive or not es_alive:
                 endtime = datetime.datetime.now()
                 elapsedtime = (endtime - starttime).seconds
             else:
                 conntime = Gauge('conn_time', 'connect time', ['hostname', 'metric'], registry=registry)
                 conntime.labels(self.hostname, 'connect time').set((datetime.datetime.now() - starttime).microseconds)
-                TopMonitor.TOPMonitor(self.hostname).getmon()
+                topmon.getmon()
                 parser = JsonParser.JSONParser(self.hostname)
                 mon_list = parser.get_mon_list()
                 skip_list = parser.get_skip_list()
@@ -211,6 +213,7 @@ class CollectData:
             return registry
         finally:
             srunner.conn_exit()
+            topmon.conn_exit()
 
 
 if __name__ == "__main__":

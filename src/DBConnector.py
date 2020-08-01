@@ -53,5 +53,5 @@ class DBConnection:
 
 
 if __name__ == "__main__":
-    conn = DBConnection('jsvftestdbs')
+    conn = DBConnection('jsvfpredbs')
     print(type(conn))

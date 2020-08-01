@@ -1,11 +1,13 @@
 import configparser
 import JsonParser
+import os
 
 
 class CfgParser:
     def __init__(self):
         self.parser = configparser.ConfigParser()
-        self.parser.read('conf/dbMon.conf', encoding='UTF8')
+        self.conf = os.path.abspath(os.path.join(os.path.split(os.path.realpath(__file__))[0], "../conf/dbMon.conf"))
+        self.parser.read(self.conf, encoding='UTF8')
 
     def get_mon_list(self, hostname):
         if self.parser.get(hostname, 'monlst') != "all":

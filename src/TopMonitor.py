@@ -17,7 +17,6 @@ class TOPMonitor:
         self.es = elasticsearch.Elasticsearch(self.url, http_compress=True)
         self.local_ip = self.cfg.get_local_ip(hostname)
 
-
     def getmon(self):
         jsdata = []
         jslst = self.js.get_top_mon()
@@ -35,9 +34,16 @@ class TOPMonitor:
         helpers.bulk(self.es, jsdata)
         cmd = "sh scripts/clean_es.sh >/dev/null 2>&1"
         return os.system(cmd)
-        
+ 
+    def ping(self):
+        return self.es.ping()
+  
+    def conn_exit(self):
+        self.query.conn_exit()
+
 
 if __name__ == "__main__":
-    mon = TOPMonitor('newjsvfdbs001').getmon()
+    mon = TOPMonitor('jsvfpredbs').ping()
+    print(mon)
     # print(str(datetime.now().strftime('%Y%m%d-%H%M%S-0000-800')))
     # self.query.runSQL(self.hostname, cmd)

@@ -1,7 +1,6 @@
 import prometheus_client
 from flask import Flask, request, render_template
 from flask import Response
-from retrying import retry
 import socket
 import time
 import CfgParser
@@ -13,7 +12,6 @@ app = Flask(__name__, static_folder='templates')
 cfg = CfgParser.CfgParser()
 
 
-@retry(stop_max_attempt_number=5, wait_fixed=2000)
 def run_col(hostname):
     try:
         reg = CollectData.CollectData(hostname).collect()
