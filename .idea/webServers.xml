@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="5fc2a3e4-7b92-4757-a4bc-3de57582742b" name="jsvfpredbs">
+      <webServer id="5fc2a3e4-7b92-4757-a4bc-3de57582742b" name="jsvfpredbs" url="http:///">
         <fileTransfer rootFolder="/home/dbmon" accessType="SFTP" host="172.30.203.15" port="22" sshConfigId="5ad683a1-bab7-40af-b6be-5b328d98f8f2" sshConfig="dbmon@172.30.203.15:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />

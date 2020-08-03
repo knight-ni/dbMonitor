@@ -1,24 +1,27 @@
 import prometheus_client
-from flask import Flask, request, render_template
+from flask import Flask, request
 from flask import Response
 import socket
 import time
-import CfgParser
-import CollectData
-import DBConnector
+from file_parser import dbmon_cfgparser
+from collector import dbmon_collector
+from db_connector import dbmon_connector
+
 
 work_host_list = []
 app = Flask(__name__, static_folder='templates')
-cfg = CfgParser.CfgParser()
-
 
 def run_col(hostname):
     try:
-        reg = CollectData.CollectData(hostname).collect()
+        dbconn = dbmon_connector.DBConnection(hostname)
+        col = dbmon_collector.Data_Collector(dbconn, hostname)
+        col.collect2elastic()
+        reg = col.collect2promethus
         return reg
     finally:
         try:
             work_host_list.remove(hostname)
+            dbconn.closeconn()
         except Exception:
             pass
 
@@ -27,7 +30,8 @@ def run_col(hostname):
 def main(hostname):
     ip = request.remote_addr
     addrs = [add[4][0] for add in socket.getaddrinfo(socket.gethostname(), None)]
-    srvlst = cfg.get_srv_lst(hostname)
+    cfg = dbmon_cfgparser.Cfg_Parser(hostname)
+    srvlst = cfg.get_srv_lst()
     srvlst += addrs
     try:
         if ip not in srvlst:
@@ -46,7 +50,6 @@ def main(hostname):
     finally:
         try:
             work_host_list.remove(hostname)
-            DBConnector.DBConnection(hostname).closeconn()
         except Exception:
             pass
 
@@ -56,8 +59,9 @@ def main(hostname):
 @app.route("/metrics/", methods=['GET', 'POST'])
 def show_urls():
     base_url = request.url_root
+    cfg = dbmon_cfgparser.Cfg_Parser('GoodKnight')
     data = ['<li><a href="' + base_url + 'metrics/' + hostname + '">' + base_url + 'metrics/' + hostname + '</a></li>'
-            for hostname in CfgParser.CfgParser().get_hosts()]
+            for hostname in cfg.get_hosts()]
     return Response('<ur>''<br>'.join(data) + '</ur>')
 
 
