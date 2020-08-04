@@ -137,7 +137,7 @@
     {
         "NAME": "dbs_io",
         "API": "ifx_smi",
-        "CMD": "select trim(c.name)||'_'||trim(substr(replace(fname,'.',''),instr(replace(fname,'.',''),'/',-1)+1,length(replace(fname,'.','')))) chkname, reads, pagesread, writes,pageswritten from syschkio a,syschunks b,sysdbspaces c where a.chunknum=b.chknum and b.dbsnum=c.dbsnum",
+        "CMD": "select trim(c.name) dbspace,trim(substr(replace(fname,'.',''),instr(replace(fname,'.',''),'/',-1)+1,length(replace(fname,'.','')))) chkname, reads, pagesread, writes,pageswritten from syschkio a,syschunks b,sysdbspaces c where a.chunknum=b.chknum and b.dbsnum=c.dbsnum",
         "METRICS": [
             "reads",
             "pagesread",
@@ -145,7 +145,7 @@
             "pageswritten"
         ],
         "TYPE": "gauge",
-        "LABEL": "chkname"
+        "LABEL": "dbspace,chkname"
     },
     {
         "NAME": "chk_down",
@@ -372,7 +372,7 @@
     {
         "NAME": "stk_ovflow",
         "API": "ifx_smi",
-        "CMD": "select sysadmin:task('onstat',\" -g sts|sed -n '8,$p'|awk '{if($4>95)print 'onstat -g opn '$1}'|sh|grep rstcb|sed -e 's/0x//g'|awk '{print ''onstat -u|grep ''$2}'|sh|awk '{if($4=='openbet')print}'|wc -l\")::int stk_ovflow from sysmaster:sysdual",
+        "CMD": "select sysadmin:task('onstat',' -g sts|sed -n ''8,$p''|awk ''{if($4>90)print \"onstat -g opn \"$1}''|sh|grep rstcb|sed -e ''s/0x//g''|awk ''{print \"onstat -u|grep \"$2}''|sh|wc -l')::int stk_ovflow from sysmaster:sysdual",
         "METRICS": [
             "stk_ovflow"
         ],
@@ -400,11 +400,21 @@
         "LABEL": ""
     },
     {
-        "NAME": "rss_is_alive",
+        "NAME": "rss_nodes",
         "API": "ifx_smi",
-        "CMD": "select count(*) rss_is_alive from sysha:rss_tab where state='C'",
+        "CMD": "select count(*) rss_nodes from sysha:rss_tab where state='C'",
         "METRICS": [
-            "rss_is_alive"
+            "rss_nodes"
+        ],
+        "TYPE": "gauge",
+        "LABEL": ""
+    },
+    {
+        "NAME": "sds_nodes",
+        "API": "ifx_smi",
+        "CMD": "select count(*) sds_nodes from sysha:sds_tab where state='C'",
+        "METRICS": [
+            "sds_nodes"
         ],
         "TYPE": "gauge",
         "LABEL": ""
@@ -412,12 +422,12 @@
     {
         "NAME": "rss_gaps",
         "API": "ifx_smi",
-        "CMD": "select uniqid-replay_loguniq rss_gaps from sysmaster:syslogs,sysha:rss_tab where is_current=1",
+        "CMD": "select rss_servername,uniqid-replay_loguniq rss_gaps from sysmaster:syslogs,sysha:rss_tab where is_current=1",
         "METRICS": [
             "rss_gaps"
         ],
         "TYPE": "gauge",
-        "LABEL": ""
+        "LABEL": "rss_servername"
     },
     {
         "NAME": "unbak_log_num",
@@ -643,7 +653,7 @@
     {
         "NAME": "topmtx",
         "API": "ifx_top",
-        "CMD": "select first 10 (rownumber() over (order by mtx_waittime,mtx_maxwait desc))::int rank, mtx_holder,mtx_wtlist,mtx_name,mtx_nwaits,mtx_curlen,mtx_totlen,mtx_maxlen,mtx_waittime,mtx_servtime,mtx_maxwait from sysmtxlst",
+        "CMD": "select first 10 (rownumber() over (order by mtx_waittime,mtx_maxwait desc))::int rank,mtx_holder,mtx_wtlist,trim(mtx_name) mtx_name,mtx_nwaits,mtx_curlen,mtx_totlen,mtx_maxlen,mtx_waittime,mtx_servtime,mtx_maxwait from sysmtxlst",
         "METRICS": [
             "mtx_holder",
             "mtx_wtlist",
@@ -657,6 +667,17 @@
             "mtx_maxwait"
         ],
         "TYPE": "info",
-        "LABEL": "rank"
+        "LABEL": ""
+    },
+    {
+        "NAME": "toptab",
+        "API": "ifx_smi",
+        "CMD": "select first 20 (rownumber() over (order by bufreads desc,bufwrites desc))::int rank,trim(dbsname) dbsname,trim(tabname) tabname,partnum,bufreads::int8 bufreads,bufwrites::int8 bufwrites from sysptprof a where a.tabname<>'TBLSpace' and dbsname not in ('sysmaster','sysdatabases','sysusers','sysha','sysutils','sysadmin')",
+        "METRICS": [
+           "bufreads",
+           "bufwrites"
+        ],
+        "TYPE": "gauge",
+        "LABEL": "dbsname,tabname"
     }
 ]

@@ -30,6 +30,9 @@ Display Server:
    3.run install/display/grafana_install.sh
    4.import panel from sample/granfa/*.json file and create corresponding data source
 
+Important!!!!!!!!!!!!!!!!!!!!!!!
+make sure run dbMonitor Command In Directory /home/dbmon/dbMonitor or you may get error "no section from CfgParser"
+
 start
 sh scripts/start_all.sh
 
