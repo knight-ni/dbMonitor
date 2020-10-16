@@ -5,4 +5,4 @@
 /install/capture/openssl-1.1.1f.tar.gz
 /install/capture/pyenv-master.zip
 /install/capture/pyenv-virtualenv-master.zip
-/logs/filebeat.log
+/install/capture/glibc-2.17.tar.gz

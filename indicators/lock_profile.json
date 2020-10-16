@@ -1,0 +1,12 @@
+{
+    "NAME": "lock_profile",
+    "API": "ifx_smi",
+    "CMD": "select wt_locks,act_locks,max_locks from (select count(*) wt_locks from syslcktab where wtlist>0) a,(select count(*) act_locks from syslocktab) b,(select sh_maxlocks max_locks from sysshmvals ) c",
+    "METRICS": [
+        "wt_locks",
+        "act_locks",
+        "max_locks"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

@@ -1,0 +1,10 @@
+{
+    "NAME": "blocked",
+    "API": "ifx_smi",
+    "CMD": "select sysadmin:task('onstat',' -|grep Blocked|wc -l') blocked from sysmaster:sysdual",
+    "METRICS": [
+        "blocked"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

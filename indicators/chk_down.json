@@ -1,0 +1,10 @@
+{
+    "NAME": "chk_down",
+    "API": "ifx_smi",
+    "CMD": "select trim(replace(fname,'.','')) error_chk from syschunks where is_offline=1 or is_recovering=1 or is_inconsistent=1",
+    "METRICS": [
+        "error_chk"
+    ],
+    "TYPE": "info",
+    "LABEL": ""
+}

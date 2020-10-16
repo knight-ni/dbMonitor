@@ -1,0 +1,28 @@
+{
+    "NAME": "topTX",
+    "API": "ifx_top",
+    "CMD": "select first 10 (rownumber() over (order by us_isread+us_iswrite+us_isrwrite+us_isdelete desc))::int rank,current::varchar(32) curtime,tx_id::int tx_id, c.sid, trim(username) username, pid, trim(tty) tty, trim(feprogram) feprogram, trim(scs_sqlstatement) sqs_statement, scs_sqerrno, scs_isamerr, tx_logbeg, tx_loguniq tx_logcur, g.lognum max_log_num, max_sortdiskspace max_sortdiskspace, us_nlocks::int8 us_nlocks, us_isread::int8 us_isread, us_iswrite::int8 us_iswrite, us_isrwrite::int8 us_isrwrite, us_isdelete::int8 us_isdelete,(us_isread+us_iswrite+us_isrwrite+us_isdelete) us_ops from sysmaster:systrans a, sysmaster:sysuserthreads b, sysmaster:syssessions c, sysmaster:syssqlcurses d, sysmaster:sysconfig e, sysmaster:syssesprof f, (select count(*) lognum from sysmaster:syslogs) g where a.tx_addr = b.us_txp and b.us_uid = c.uid and b.us_sid = c.sid and c.sid = d.scs_sessionid and c.sid = f.sid and e.cf_name = 'LTXHWM' and username<>'dbmon'",
+    "METRICS": [
+        "tx_id",
+        "sid",
+        "username",
+        "pid",
+        "tty",
+        "feprogram",
+        "sqs_statement",
+        "sqs_sqlerror",
+        "sqs_isamerror",
+        "tx_logbeg",
+        "tx_logcur",
+        "max_log_num",
+        "max_sortdiskspace",
+        "us_nlocks",
+        "us_isread",
+        "us_iswrite",
+        "us_isrwrite",
+        "us_isdelete",
+        "us_ops"
+    ],
+    "TYPE": "info",
+    "LABEL": "rank"
+}

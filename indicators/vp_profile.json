@@ -1,0 +1,14 @@
+{
+    "NAME": "vp_profile",
+    "API": "ifx_smi",
+    "CMD": "Select trim(classname) classname,sum(total_spins) total_spins, sum(vp_cache_miss) vp_cache_miss, sum(total_semops) total_semops, decode(sum(thread_run),0,0,sum(usecs_user + usecs_sys)/sum(thread_run))*100 busy_rate,sum(num_ready) num_ready from sysvplst group by classname",
+    "METRICS": [
+        "total_spins",
+        "vp_cache_miss",
+        "total_semops",
+        "busy_rate",
+        "num_ready"
+    ],
+    "TYPE": "gauge",
+    "LABEL": "classname"
+}

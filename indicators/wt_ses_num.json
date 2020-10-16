@@ -1,0 +1,10 @@
+{
+    "NAME": "wt_ses_num",
+    "API": "ifx_smi",
+    "CMD": "select count(*) wt_ses_num from sysmaster:sysrstcb A , sysmaster:systcblst B, sysmaster:sysscblst C WHERE A.tid = B.tid AND C.sid = A.sid AND lower(name) in  (\"sqlexec\") AND statedesc not in ('cond wait','running')",
+    "METRICS": [
+        "wt_ses_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

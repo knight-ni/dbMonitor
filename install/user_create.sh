@@ -6,6 +6,7 @@ conf=${basedir}/conf/dbMon.conf
 rm -rf nohup.out
 username=`awk -F'=' '{if($1=="username"){gsub("\r",""); print $NF}}' ${conf}`
 password=`awk -F'=' '{if($1=="password"){gsub("\r",""); print $NF}}' ${conf}`
+databases=`awk -F'=' '{if($1=="mon_databases"){gsub("\r",""); print $NF}}' ${conf}`
 
 id ${username} >/dev/null 2>/dev/null
 if [ $? -ne 0 ];then
@@ -25,3 +26,9 @@ echo "grant connect to ${username}"|dbaccess sysmaster
 echo "grant resource to ${username}"|dbaccess sysmaster
 echo "grant dba to ${username}"|dbaccess sysmaster
 EOF
+
+array=(${databases//,/ }) 
+for db in ${array[@]}
+do
+    echo "echo \"grant connect to ${username}\"|dbaccess $db"
+done

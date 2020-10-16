@@ -1,0 +1,10 @@
+{
+    "NAME": "rb_tx_num",
+    "API": "ifx_smi",
+    "CMD": "select sysadmin:task('onstat',\" -x|grep R-|wc -l\")::int rb_tx_num from sysmaster:sysdual",
+    "METRICS": [
+        "rb_tx_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

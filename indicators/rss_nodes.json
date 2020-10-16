@@ -1,0 +1,10 @@
+{
+    "NAME": "rss_nodes",
+    "API": "ifx_smi",
+    "CMD": "select count(*) rss_nodes from sysha:rss_tab where state='C'",
+    "METRICS": [
+        "rss_nodes"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

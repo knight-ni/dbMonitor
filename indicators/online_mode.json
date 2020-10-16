@@ -1,0 +1,10 @@
+{
+    "NAME": "online_mode",
+    "API": "ifx_smi",
+    "CMD": "select value mode from sysshmhdr where name='mode'",
+    "METRICS": [
+        "mode"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

@@ -1,0 +1,10 @@
+{
+    "NAME": "uptime",
+    "API": "ifx_smi",
+    "CMD": "select substr((dbinfo('utc_current')-value)/3600,1,10) uptime from sysshmhdr where name='bttime'",
+    "METRICS": [
+        "uptime"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

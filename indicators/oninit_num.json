@@ -1,0 +1,10 @@
+{
+    "NAME": "oninit_num",
+    "API": "ifx_smi",
+    "CMD": "select max(vpid) oninit_num from sysvpprof",
+    "METRICS": [
+        "oninit_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

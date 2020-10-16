@@ -1,0 +1,11 @@
+{
+    "NAME": "vm_usage",
+    "API": "ifx_smi",
+    "CMD": "select first 20 'pool_'||trim(po_name::varchar(20)) name,sum(po_usedamt + po_freeamt)/1024 value from syspoollst where po_class=2 group by 1 union all select 'vm_tot' name,sum(seg_size)/1024 from sysseglst where seg_class=2 union all select 'vm_used' name,sum(seg_blkused*os_pagesize)/1024 from sysseglst,sysmachineinfo where seg_class=2 order by 2 desc",
+    "METRICS": [
+        "name",
+        "value"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

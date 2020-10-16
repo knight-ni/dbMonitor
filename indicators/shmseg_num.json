@@ -1,0 +1,10 @@
+{
+    "NAME": "shmseg_num",
+    "API": "ifx_smi",
+    "CMD": "select count(*) shmseg_num from syssegments",
+    "METRICS": [
+        "shmseg_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

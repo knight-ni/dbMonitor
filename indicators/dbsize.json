@@ -1,0 +1,10 @@
+{
+    "NAME": "dbsize",
+    "API": "ifx_smi",
+    "CMD": "select n.dbsname DATABASE, SUM(i.ti_nptotal * i.ti_pagesize)/1024/1024/1024 size_in_gb FROM systabnames n, systabinfo i, sysdatabases d WHERE n.partnum = i.ti_partnum AND n.dbsname = d.name and n.dbsname='openbet' GROUP BY 1",
+    "METRICS": [
+        "size_in_gb"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

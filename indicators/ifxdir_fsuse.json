@@ -1,0 +1,11 @@
+{
+    "NAME": "ifxdir_fsuse",
+    "API": "ifx_onstat",
+    "CMD": "df -h -x iso9660 -x tmpfs 2>/dev/null|sed '1d'|tr -s \"\n\" \" \"|awk -v str='' '{for(i=1;i<=NF;i++)if(i%6==0){str=str\" \"$i;print str;str=\"\"}else{str=str\" \"$i}}'|awk '{print $NF\":\"$(NF-1)}'|sed -e 's/%//g'",
+    "METRICS": [
+        "key",
+        "value"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

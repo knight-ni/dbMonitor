@@ -1,0 +1,10 @@
+{
+    "NAME": "down_chk_num",
+    "API": "ifx_smi",
+    "CMD": "select count(*) down_chk_num from syschunks where is_offline<>0",
+    "METRICS": [
+        "down_chk_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

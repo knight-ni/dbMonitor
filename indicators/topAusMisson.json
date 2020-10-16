@@ -1,0 +1,15 @@
+{
+    "NAME": "topAusMisson",
+    "API": "ifx_top",
+    "CMD": "select a.tabid,a.colno,seqno,max(constructed) constructed,mode,tabname,colname from openbet:sysdistrib a,openbet:systables b,openbet:syscolumns c where a.tabid = b.tabid and b.tabid = c.tabid and c.colno = a.colno and a.tabid > 99 and date(constructed) < today - 7 group by 1,2,3,5,6,7 order by 4,6",
+    "METRICS": [
+        "tabid",
+        "colno",
+        "tabname",
+        "colname",
+        "mode",
+        "constructed"
+    ],
+    "TYPE": "info",
+    "LABEL": ""
+}

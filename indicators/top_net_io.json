@@ -1,0 +1,13 @@
+{
+    "NAME": "top_net_io",
+    "API": "ifx_smi",
+    "CMD": "select first 5 rownumber() over (order by (net_read_bytes + net_write_bytes) desc)||'_'||sid topN, net_read_cnt,net_read_bytes,net_write_cnt,net_write_bytes from sysnetworkio where net_protocol='soctcp' and net_client_type=0",
+    "METRICS": [
+        "net_read_cnt",
+        "net_read_bytes",
+        "net_write_cnt",
+        "net_write_bytes"
+    ],
+    "TYPE": "gauge",
+    "LABEL": "topn"
+}

@@ -1,0 +1,10 @@
+{
+    "NAME": "log_type",
+    "API": "ifx_smi",
+    "CMD": "select is_buff_log log_type from sysdatabases where name='openbet'",
+    "METRICS": [
+        "log_type"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

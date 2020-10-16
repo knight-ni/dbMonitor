@@ -1,0 +1,10 @@
+{
+    "NAME": "cluster_online_quorumd",
+    "API": "ifx_onstat",
+    "CMD": "sudo clustat 2>/dev/null|grep /dev/block/253:6|grep Online|wc -l|awk '{print \"cluster_online_quorumd:\"$0}'",
+    "METRICS": [
+        "cluster_online_quorumd"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

@@ -1,0 +1,10 @@
+{
+    "NAME": "stk_ovflow",
+    "API": "ifx_smi",
+    "CMD": "select sysadmin:task('onstat',' -g sts|sed -n ''8,$p''|awk ''{if($4>90)print \"onstat -g opn \"$1}''|sh|grep rstcb|sed -e ''s/0x//g''|awk ''{print \"onstat -u|grep \"$2}''|sh|wc -l')::int stk_ovflow from sysmaster:sysdual",
+    "METRICS": [
+        "stk_ovflow"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

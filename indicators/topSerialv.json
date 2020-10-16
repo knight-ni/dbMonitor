@@ -1,0 +1,13 @@
+{
+    "NAME": "topSerialv",
+    "API": "ifx_top",
+    "CMD": "select first 10 (rownumber() over (order by serialv desc))::int rank,trim(dbsname) database,trim(tabname) tabname,serialv from sysptnhdr a,systabnames b where a.partnum=b.partnum and tabname not like ('sys%') and tabname not like ('TBLSpace')",
+    "METRICS": [
+        "rank",
+        "database",
+        "tabanme",
+        "serialv"
+    ],
+    "TYPE": "info",
+    "LABEL": "rank"
+}

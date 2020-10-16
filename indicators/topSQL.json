@@ -1,0 +1,15 @@
+{
+    "NAME": "topSQL",
+    "API": "ifx_top",
+    "CMD": "select current collect_time,sc.sid sid,sc.pid pid, sc.hostname, CASE WHEN TRIM(s.hostname)='' THEN TRIM(sc.username)|| '_unknown' ELSE TRIM(sc.username)|| '_' || TRIM(s.hostname) END as application,feprogram::char(200) programe,substr(trim(sysadmin:task('onstat',' -g sql',sc.sid)),350) sqx_sqlstatement from sysmaster:sysscblst sc, sysmaster:syssessions s,sysmaster:sysrstcb rs where sc.username != 'dbmon' and s.sid=sc.sid and sc.address=rs.scb",
+    "METRICS": [
+        "collect_time",
+        "sid",
+        "hostname",
+        "application",
+        "programe",
+        "sqx_sqlstatement"
+    ],
+    "TYPE": "info",
+    "LABEL": ""
+}

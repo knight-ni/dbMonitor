@@ -1,0 +1,10 @@
+{
+    "NAME": "user_conn",
+    "API": "ifx_smi",
+    "CMD": "select count(*) user_conn from sysmaster:sysrstcb A , sysmaster:systcblst B, sysmaster:sysscblst C WHERE A.tid = B.tid AND C.sid = A.sid AND lower(name) in ('sqlexec')",
+    "METRICS": [
+        "user_conn"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

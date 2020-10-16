@@ -1,0 +1,10 @@
+{
+    "NAME": "shmdmp_num",
+    "API": "ifx_smi",
+    "CMD": "select sysadmin:task('onstat -','|ls '||trim(cf_effective)||'|grep shmem|wc -l')::int shmdmp_num from sysconfig where cf_name='DUMPDIR'",
+    "METRICS": [
+        "shmdmp_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

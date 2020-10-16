@@ -1,0 +1,11 @@
+{
+    "NAME": "instance_profile",
+    "API": "ifx_smi",
+    "CMD": "SELECT TRIM(name) AS name,value fROM sysprofile WHERE name IN ('dskreads', 'bufreads', 'dskwrites', 'bufwrites', 'isamtot',  'isreads', 'iswrites', 'isrewrites', 'isdeletes', 'iscommits', 'isrollbacks', 'latchwts', 'buffwts', 'lockreqs', 'lockwts', 'ckptwts', 'deadlks', 'lktouts', 'numckpts', 'plgpagewrites', 'plgwrites', 'llgpagewrites', 'llgwrites', 'pagreads', 'pagwrites', 'flushes', 'compress', 'btraidx', 'dpra', 'rapgs_used', 'seqscans', 'totalsorts', 'memsorts', 'disksorts', 'maxsortspace')",
+    "METRICS": [
+        "name",
+        "value"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

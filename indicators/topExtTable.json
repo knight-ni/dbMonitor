@@ -1,0 +1,18 @@
+{
+    "NAME": "topExtTable",
+    "API": "ifx_top",
+    "CMD": "select first 10 (rownumber() over (order by nextns desc))::int rank,trim(dbinfo('DBSPACE',a.partnum)) dbspace,trim(dbsname) database,trim(tabname) table, a.partnum partnum, nextns, nptotal, pagesize, fextsiz, nextsiz from sysmaster:sysptnhdr a, sysmaster:systabnames b where a.partnum = b.partnum and b.dbsname not like 'sys%' and dbsname in( select name from sysmaster:sysdatabases) and b.tabname not like 'sys%' and tabname not like 'TBLSpace%' and sysmaster:bitval(flags,'32')<>1 and sysmaster:bitval(flags,'64')<>1 and sysmaster:bitval(flags,'128')<>1",
+    "METRICS": [
+        "dbspace",
+        "database",
+        "tabname",
+        "partnum",
+        "nextns",
+        "nptotal",
+        "pagesize",
+        "fextsiz",
+        "nextsiz"
+    ],
+    "TYPE": "info",
+    "LABEL": "rank"
+}

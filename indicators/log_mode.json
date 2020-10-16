@@ -1,0 +1,10 @@
+{
+    "NAME": "log_mode",
+    "API": "ifx_smi",
+    "CMD": "select is_logging log_mode from sysdatabases where name='openbet'",
+    "METRICS": [
+        "log_mode"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

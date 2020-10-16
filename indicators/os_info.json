@@ -1,0 +1,14 @@
+{
+    "NAME": "os_info",
+    "API": "ifx_smi",
+    "CMD": "select os_num_procs::int8 os_num_procs,os_num_olprocs::int8 os_num_olprocs,os_pagesize::int8 os_pagesize, os_mem_total::int8 os_mem_total, os_mem_free::int8 os_mem_free from sysmachineinfo",
+    "METRICS": [
+        "os_num_procs",
+        "os_num_olprocs",
+        "os_pagesize",
+        "os_mem_total",
+        "os_mem_free"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

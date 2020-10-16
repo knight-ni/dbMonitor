@@ -1,0 +1,10 @@
+{
+    "NAME": "open_tx_num",
+    "API": "ifx_smi",
+    "CMD": "select sysadmin:task('onstat',' -x|grep B-|wc -l')::int open_tx_num from sysmaster:sysdual",
+    "METRICS": [
+        "open_tx_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

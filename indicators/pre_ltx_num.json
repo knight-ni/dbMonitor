@@ -1,0 +1,10 @@
+{
+    "NAME": "pre_ltx_num",
+    "API": "ifx_onstat",
+    "CMD": "ltxlog=`onstat -c|awk '{if($1==\"LTXHWM\"){ltxhwm=$NF/100}else if($1==\"LOGFILES\"){totlog=$NF}}END{print int(ltxhwm*totlog)}'`;onstat -x|sed -n '/address/,/concurrent/p'|egrep -v \"(address|concurrent)\"|awk '{if($5!=\"-\" && $6!=\"-\")print}'|awk -v num=0 '{split($5,a,\":\");split($6,b,\":\");if((b[1]-a[1]-'\"$ltxlog\"')>0){num+=1}}END{print \"pre_ltx_num:\"num}'",
+    "METRICS": [
+        "pre_ltx_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

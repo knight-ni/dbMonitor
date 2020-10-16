@@ -1,0 +1,11 @@
+{
+    "NAME": "toptab",
+    "API": "ifx_smi",
+    "CMD": "select first 20 (rownumber() over (order by bufreads desc,bufwrites desc))::int rank,trim(dbsname) dbsname,trim(tabname) tabname,partnum,bufreads::int8 bufreads,bufwrites::int8 bufwrites from sysptprof a where a.tabname<>'TBLSpace' and dbsname not in ('sysmaster','sysdatabases','sysusers','sysha','sysutils','sysadmin')",
+    "METRICS": [
+        "bufreads",
+        "bufwrites"
+    ],
+    "TYPE": "gauge",
+    "LABEL": "dbsname,tabname"
+}

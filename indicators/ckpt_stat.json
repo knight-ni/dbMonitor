@@ -1,0 +1,10 @@
+{
+    "NAME": "ckpt_stat",
+    "API": "ifx_smi",
+    "CMD": "select first 1 cp_time from syscheckpoint order by clock_time desc",
+    "METRICS": [
+        "cp_time"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

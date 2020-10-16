@@ -1,0 +1,18 @@
+{
+    "NAME": "kernel_info",
+    "API": "ifx_smi",
+    "CMD": "Select os_open_file_lim::int8 os_open_file_lim,os_shmmax::int8 os_shmmax,os_shmmin::int8 os_shmmin,os_shmids::int8 os_shmids,os_shmnumsegs::int8 os_shmnumsegs,os_semids::int8 os_semids,os_semnum::int8 os_semnum,os_semnumperid::int8 os_semnumperid,os_semops::int8 os_semops from sysmachineinfo",
+    "METRICS": [
+        "os_open_file_lim",
+        "os_shmmax",
+        "os_shmmin",
+        "os_shmids",
+        "os_shmnumsegs",
+        "os_semids",
+        "os_semnum",
+        "os_semnumperid",
+        "os_semops"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

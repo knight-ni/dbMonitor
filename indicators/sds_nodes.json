@@ -1,0 +1,10 @@
+{
+    "NAME": "sds_nodes",
+    "API": "ifx_smi",
+    "CMD": "select count(*) sds_nodes from sysha:sds_tab where state='C'",
+    "METRICS": [
+        "sds_nodes"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

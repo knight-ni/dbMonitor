@@ -1,0 +1,49 @@
+import os
+import json
+
+class Json_Parser:
+
+    def __init__(self, hostname):
+        self.hostname = hostname
+        self.susp = os.path.abspath(os.path.join(os.path.split(os.path.realpath(__file__))[0], "../../conf/suspects.json"))
+
+    def get_json_obj(self, name):
+        with open(self.susp, 'r') as load_f:
+            load_dict = json.load(load_f)
+        for jn in load_dict:
+            if name in jn.values():
+                return jn
+
+    def get_all_mon(self):
+        with open(self.susp, 'r') as load_f:
+            load_dict = json.load(load_f)
+            return [js.get('NAME') for js in load_dict if js]
+
+    def get_top_mon(self):
+        with open(self.susp, 'r') as load_f:
+            load_dict = json.load(load_f)
+            return [js.get('NAME') for js in load_dict if js.get('API') == 'ifx_top']
+
+    def get_cmd_mon(self):
+        with open(self.susp, 'r') as load_f:
+            load_dict = json.load(load_f)
+            return [js.get('NAME') for js in load_dict if js.get('API') == 'ifx_cmd']
+
+    def get_smi_mon(self):
+        with open(self.susp, 'r') as load_f:
+            load_dict = json.load(load_f)
+            return [js.get('NAME') for js in load_dict if js.get('API') == 'ifx_smi']
+
+    def get_onstat_mon(self):
+        with open(self.susp, 'r') as load_f:
+            load_dict = json.load(load_f)
+            return [js.get('NAME') for js in load_dict if js.get('API') == 'ifx_onstat']
+
+    def get_all_obj(self):
+        with open(self.susp, 'r') as load_f:
+            load_dict = json.load(load_f)
+            return load_dict
+
+if __name__ == "__main__":
+    jn = Json_Parser('jsvfpredbs').get_all_obj()
+    print(jn)

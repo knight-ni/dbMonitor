@@ -1,0 +1,10 @@
+{
+    "NAME": "log_usage",
+    "API": "ifx_smi",
+    "CMD": "select value*2 size from sysshmhdr where name='pf_llgpagewrites'",
+    "METRICS": [
+        "size"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

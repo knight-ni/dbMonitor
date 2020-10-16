@@ -1,0 +1,10 @@
+{
+    "NAME": "af_num",
+    "API": "ifx_smi",
+    "CMD": "select sysadmin:task('onstat -','|ls '||trim(cf_effective)||'|grep af|wc -l')::int af_num from sysconfig where cf_name='DUMPDIR'",
+    "METRICS": [
+        "af_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

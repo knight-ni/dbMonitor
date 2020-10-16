@@ -1,0 +1,10 @@
+{
+    "NAME": "wait_mux_num",
+    "API": "ifx_smi",
+    "CMD": "select count(*) wait_mux_num from sysmutexes where mtx_wtlist>0",
+    "METRICS": [
+        "wait_mux_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

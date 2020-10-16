@@ -1,0 +1,10 @@
+{
+    "NAME": "cluster_online_service",
+    "API": "ifx_onstat",
+    "CMD": "sudo clustat 2>/dev/null|grep service:jsvfpredbs_cluster|grep -w started|wc -l|awk '{print \"cluster_online_service:\"$0}'",
+    "METRICS": [
+        "cluster_online_service"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

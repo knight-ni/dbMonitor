@@ -1,0 +1,10 @@
+{
+    "NAME": "ansi_mode",
+    "API": "ifx_smi",
+    "CMD": "select is_ansi ansi_mode from sysdatabases where name='openbet'",
+    "METRICS": [
+        "ansi_mode"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

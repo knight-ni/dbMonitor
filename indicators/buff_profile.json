@@ -1,0 +1,14 @@
+{
+    "NAME": "buff_profile",
+    "API": "ifx_smi",
+    "CMD": "select (bufsize/1024)::int||'k' as bufsize,nbuffs,bufreads,bufwrites,bufwaits,ovbuff from sysbufpool",
+    "METRICS": [
+        "nbuffs",
+        "bufreads",
+        "bufwrites",
+        "bufwaits",
+        "ovbuff"
+    ],
+    "TYPE": "gauge",
+    "LABEL": "bufsize"
+}

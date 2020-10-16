@@ -1,0 +1,10 @@
+{
+    "NAME": "block_ckpt",
+    "API": "ifx_smi",
+    "CMD": "select count(*) block_ckpt from syscheckpoint where type='Blocking'",
+    "METRICS": [
+        "block_ckpt"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

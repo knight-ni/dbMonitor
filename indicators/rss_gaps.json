@@ -1,0 +1,10 @@
+{
+    "NAME": "rss_gaps",
+    "API": "ifx_smi",
+    "CMD": "select rss_servername,uniqid-replay_loguniq rss_gaps from sysmaster:syslogs,sysha:rss_tab where is_current=1",
+    "METRICS": [
+        "rss_gaps"
+    ],
+    "TYPE": "gauge",
+    "LABEL": "rss_servername"
+}

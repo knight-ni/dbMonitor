@@ -1,0 +1,19 @@
+{
+    "NAME": "topmtx",
+    "API": "ifx_top",
+    "CMD": "select first 10 (rownumber() over (order by mtx_waittime,mtx_maxwait desc))::int rank,mtx_holder,mtx_wtlist,trim(mtx_name) mtx_name,mtx_nwaits,mtx_curlen,mtx_totlen,mtx_maxlen,mtx_waittime,mtx_servtime,mtx_maxwait from sysmtxlst",
+    "METRICS": [
+        "mtx_holder",
+        "mtx_wtlist",
+        "mtx_name",
+        "mtx_nwaits",
+        "mtx_curlen",
+        "mtx_totlen",
+        "mtx_maxlen",
+        "mtx_waittime",
+        "mtx_servtime",
+        "mtx_maxwait"
+    ],
+    "TYPE": "info",
+    "LABEL": ""
+}

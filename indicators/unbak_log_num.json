@@ -1,0 +1,10 @@
+{
+    "NAME": "unbak_log_num",
+    "API": "ifx_smi",
+    "CMD": "select count(*) unbak_log_num from syslogs where is_used=1 and is_backed_up=0",
+    "METRICS": [
+        "unbak_log_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

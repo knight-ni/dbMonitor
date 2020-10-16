@@ -1,0 +1,10 @@
+{
+    "NAME": "topversion",
+    "API": "ifx_top",
+    "CMD": "select dbinfo('version','full') version from sysmaster:sysdual",
+    "METRICS": [
+        "version"
+    ],
+    "TYPE": "info",
+    "LABEL": "rank"
+}

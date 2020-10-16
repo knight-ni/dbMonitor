@@ -1,0 +1,21 @@
+{
+    "NAME": "topLock",
+    "API": "ifx_top",
+    "CMD": "SELECT r.sid,s.pid,l.type lock_type, dbinfo('utc_to_datetime', l.grtime) lock_taken_at,dbinfo('utc_current')-l.grtime seconds_taken, s.hostname, st.dbsname, st.tabname, rowidr row_id, dbinfo('dbspace', l.partnum) dbspace, s.progname, h.sid waiter_sid, l.partnum FROM syslcktab l, sysrstcb r, systabnames st, systxptab t, sysscblst s, sysrstcb h WHERE l.partnum = st.partnum AND l.owner = t.address AND t.owner = r.address AND l.wtlist = h.address AND s.sid = r.sid AND l.type IN (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10) AND dbsname != 'sysmaster' AND tabname != 'sysdatabases' AND h.sid IS NOT NULL",
+    "METRICS": [
+        "sid",
+        "pid",
+        "lock_type",
+        "lock_taken_at",
+        "seconds_taken",
+        "hostanme",
+        "dbsname",
+        "tabname",
+        "row_id",
+        "dbspace",
+        "progname",
+        "waiter_sid"
+    ],
+    "TYPE": "info",
+    "LABEL": ""
+}

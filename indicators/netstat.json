@@ -1,0 +1,14 @@
+{
+    "NAME": "netstat",
+    "API": "ifx_smi",
+    "CMD": "select ng_num_netscbs,ng_max_netscbs,ng_wait_cnt,ng_buf_alloc,ng_buf_alloc_max from sysnetglobal",
+    "METRICS": [
+        "ng_num_netscbs",
+        "ng_max_netscbs",
+        "ng_wait_cnt",
+        "ng_buf_alloc",
+        "ng_buf_alloc_max"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

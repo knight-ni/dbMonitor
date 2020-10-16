@@ -1,0 +1,10 @@
+{
+    "NAME": "ready_thread_num",
+    "API": "ifx_smi",
+    "CMD": "select sysadmin:task('onstat',\" -g rea|sed -n '/tid/,$p'|grep -v tid|grep -v ^$|wc -l\")::int ready_thread_num from sysmaster:sysdual",
+    "METRICS": [
+        "ready_thread_num"
+    ],
+    "TYPE": "gauge",
+    "LABEL": ""
+}

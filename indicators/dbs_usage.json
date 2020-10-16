@@ -1,0 +1,11 @@
+{
+    "NAME": "dbs_usage",
+    "API": "ifx_smi",
+    "CMD": "select trim(name) dbspace, sum(a.pagesize*(chksize-nfree))/sum(a.pagesize*a.chksize)*100 usage,sum(a.pagesize*nfree)/1024 free_size from syschunks a,sysdbspaces b where a.dbsnum=b.dbsnum group by 1",
+    "METRICS": [
+        "usage",
+        "free_size"
+    ],
+    "TYPE": "gauge",
+    "LABEL": "dbspace"
+}

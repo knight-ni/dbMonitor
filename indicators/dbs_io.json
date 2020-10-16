@@ -1,0 +1,13 @@
+{
+    "NAME": "dbs_io",
+    "API": "ifx_smi",
+    "CMD": "select trim(c.name) dbspace,trim(substr(replace(fname,'.',''),instr(replace(fname,'.',''),'/',-1)+1,length(replace(fname,'.','')))) chkname, reads, pagesread, writes,pageswritten from syschkio a,syschunks b,sysdbspaces c where a.chunknum=b.chknum and b.dbsnum=c.dbsnum",
+    "METRICS": [
+        "reads",
+        "pagesread",
+        "writes",
+        "pageswritten"
+    ],
+    "TYPE": "gauge",
+    "LABEL": "dbspace,chkname"
+}
